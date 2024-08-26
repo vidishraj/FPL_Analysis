@@ -1,0 +1,110 @@
+.player-filters {
+  background-color: whitesmoke;
+  min-height: 80px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  align-items: center;
+}
+input.modern-input {
+  width: 100%;
+  padding: 8px 10px;
+  margin: 8px 0;
+  box-sizing: border-box;
+  border: 2px solid #ddd;
+  border-radius: 8px;
+  font-size: 16px;
+  transition:
+    border-color 0.3s ease,
+    box-shadow 0.3s ease;
+  background-color: #f9f9f9;
+  color: #333;
+}
+
+input.modern-input:focus {
+  border-color: #6200ee;
+  /* Primary color */
+  outline: none;
+  box-shadow: 0 0 8px rgba(98, 0, 238, 0.3);
+  /* Soft purple shadow */
+  background-color: #fff;
+}
+
+input.modern-input::placeholder {
+  color: #aaa;
+  opacity: 1;
+  font-style: italic;
+}
+
+input.modern-input:hover {
+  border-color: #888;
+  /* Slightly darker border on hover */
+}
+
+input.modern-input:disabled {
+  background-color: #e0e0e0;
+  color: #999;
+  cursor: not-allowed;
+}
+
+.search-bar {
+  flex-basis: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  * {
+    flex-basis: 90%;
+  }
+}
+
+select.modern-select {
+  padding: 8px 10px;
+  margin: 8px 0;
+  box-sizing: border-box;
+  border: 2px solid #ddd;
+  border-radius: 8px;
+  font-size: 16px;
+  background-color: #f9f9f9;
+  color: #333;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  transition:
+    border-color 0.3s ease,
+    box-shadow 0.3s ease,
+    background-color 0.3s ease;
+  background-image: url('data:image/svg+xml;charset=US-ASCII,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 4 5"><path fill="%23333" d="M2 0L0 2h4zm0 5L0 3h4z"/></svg>');
+  background-repeat: no-repeat;
+  background-position: right 10px top 50%;
+  background-size: 10px 10px;
+}
+
+select.modern-select:focus {
+  border-color: #6200ee;
+  /* Primary color */
+  outline: none;
+  box-shadow: 0 0 8px rgba(98, 0, 238, 0.3);
+  /* Soft purple shadow */
+  background-color: #fff;
+}
+
+select.modern-select:hover {
+  border-color: #888;
+  /* Slightly darker border on hover */
+}
+
+select.modern-select:disabled {
+  background-color: #e0e0e0;
+  color: #999;
+  cursor: not-allowed;
+}
+
+.teams-dropdown {
+  flex-basis: 30%;
+}
+.position-dropdown {
+  flex-basis: 30%;
+}
+.price-dropdown {
+  flex-basis: 30%;
+}
