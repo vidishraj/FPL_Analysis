@@ -91,7 +91,7 @@ const App: React.FC = () => {
         }}
       >
         {" "}
-        **Click on column header to sort!
+        **Click on column header to sort! Slower scrolling on mobiles!
       </div>
       <Table
         data={filteredData}

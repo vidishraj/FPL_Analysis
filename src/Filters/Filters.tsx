@@ -84,24 +84,26 @@ const Filters: React.FC<FilterProps> = ({
         onChange={handlePriceChange}
         className="price-dropdown modern-select"
       >
-        {// eslint-disable-next-line
+        {
+          // eslint-disable-next-line
           [...Array(Math.ceil(maxPrice * 2) + 1)].map((_, index) => {
-          const price = index * 0.5;
-          if (index === 0) {
-            return (
-              <option key={price} value={price}>
-                {"All Prices"}
-              </option>
-            );
-          }
-          if (price >= minPrice) {
-            return (
-              <option key={price} value={price}>
-                {price.toFixed(1)}
-              </option>
-            );
-          }
-        })}
+            const price = index * 0.5;
+            if (index === 0) {
+              return (
+                <option key={price} value={price}>
+                  {"All Prices"}
+                </option>
+              );
+            }
+            if (price >= minPrice) {
+              return (
+                <option key={price} value={price}>
+                  {price.toFixed(1)}
+                </option>
+              );
+            }
+          })
+        }
       </select>
     </div>
   );

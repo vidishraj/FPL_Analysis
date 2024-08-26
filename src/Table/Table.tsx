@@ -63,7 +63,7 @@ export const Table: React.FC<TableProps> = ({
   useEffect(() => {
     if (gridRef?.current?.api && filterModel !== null) {
       setFilterModel(gridRef.current.api.getFilterModel());
-    }// eslint-disable-next-line
+    } // eslint-disable-next-line
   }, []);
   useEffect(() => {
     if (gridRef?.current?.api) {
@@ -104,7 +104,12 @@ export const Table: React.FC<TableProps> = ({
             }}
           >
             <span>{params.value}</span>
-            <img alt= "iconLogo" width={30} height={30} src={iconSrc[params.value]}></img>
+            <img
+              alt="iconLogo"
+              width={30}
+              height={30}
+              src={iconSrc[params.value]}
+            ></img>
           </div>
         );
       },
@@ -299,8 +304,7 @@ export const Table: React.FC<TableProps> = ({
           },
         ],
         headerHeight: 25,
-        domLayout: "autoHeight", // Adjusts height automatically
-        suppressHorizontalScroll: true, // Removes horizontal scrollbar
+        suppressHorizontalScroll: true, // Removes horizontal scrollbar,
       },
       getDetailRowData: ({
         successCallback,
@@ -339,7 +343,10 @@ export const Table: React.FC<TableProps> = ({
     };
   }, []);
   return (
-    <div className="ag-theme-material" style={{ height: 600, width: "100%" }}>
+    <div
+      className="ag-theme-material"
+      style={{ height: 600, width: "100%", border: "0.2px solid black" }}
+    >
       <AgGridReact
         ref={gridRef}
         rowData={data}
@@ -347,6 +354,7 @@ export const Table: React.FC<TableProps> = ({
         masterDetail={true}
         defaultColDef={{ sortable: true, filter: true }}
         sideBar={sideBar}
+        alwaysShowHorizontalScroll
         detailCellRendererParams={detailCellRendererParams}
       />
     </div>
