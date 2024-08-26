@@ -11,6 +11,7 @@ const App: React.FC = () => {
   const positions = ["GK", "MID", "DEF", "FOR"];
   const maxPrice = Math.max(...data.map((player) => player.data.nowCost / 10));
   const minPrice = Math.min(...data.map((player) => player.data.nowCost / 10));
+  const [filterModel, setFilterModel] = useState(null);
 
   const handleSearch = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     const query = e.target.value.toLowerCase();
@@ -23,12 +24,16 @@ const App: React.FC = () => {
   }, []);
 
   const handleTeamFilter = (team: string) => {
-    let innerData: any = data;
-    setFilteredData(
-      innerData.filter((player: any) =>
-        team ? player.team.name === team : true,
-      ),
-    );
+    if (team === "" && filterModel) {
+      let currentModel: any = filterModel;
+      delete currentModel["team.name"];
+      setFilterModel((prev: any) => ({ ...prev, ...currentModel }));
+    } else {
+      setFilterModel((prev: any) => ({
+        ...prev,
+        "team.name": { values: [team], filterType: "set" },
+      }));
+    }
   };
 
   const handlePositionFilter = (position: string) => {
@@ -38,17 +43,34 @@ const App: React.FC = () => {
       2: "DEF",
       1: "GK",
     };
-    setFilteredData(
-      filteredData.filter((player: any) =>
-        position ? posMap[player.data.positionId] === position : true,
-      ),
-    );
+    if (position === "" && filterModel) {
+      let currentModel: any = filterModel;
+      delete currentModel["data.priceInfo.Position"];
+      setFilterModel((prev: any) => ({ ...prev, ...currentModel }));
+    } else {
+      setFilterModel((prev: any) => ({
+        ...prev,
+        "data.priceInfo.Position": { values: [position], filterType: "set" },
+      }));
+    }
   };
 
   const handlePriceFilter = (price: number) => {
-    setFilteredData(
-      filteredData.filter((player: any) => player.data.nowCost <= price * 10),
-    );
+    if (price === 0 && filterModel) {
+      let currentModel: any = filterModel;
+      delete currentModel["data.nowCost"];
+      setFilterModel((prev: any) => ({ ...prev, ...currentModel }));
+    } else {
+      setFilterModel((prev: any) => ({
+        ...prev,
+        "data.nowCost": {
+          filterType: "number",
+          type: "inRange",
+          filter: 0.0,
+          filterTo: (price + 0.1) * 10,
+        },
+      }));
+    }
   };
 
   return (
@@ -65,7 +87,23 @@ const App: React.FC = () => {
         minPrice={minPrice}
         searchQuery={searchQuery}
       />
-      <Table data={filteredData} />
+      <div
+        style={{
+          padding: "5px 5px",
+          backgroundColor: "whitesmoke",
+          color: "",
+          border: "0.5px solid grey",
+          width: "fit-content",
+        }}
+      >
+        {" "}
+        **Click on column header to sort!
+      </div>
+      <Table
+        data={filteredData}
+        filterModel={filterModel}
+        setFilterModel={setFilterModel}
+      />
     </>
   );
 };

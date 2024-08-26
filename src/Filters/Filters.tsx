@@ -86,6 +86,13 @@ const Filters: React.FC<FilterProps> = ({
       >
         {[...Array(Math.ceil(maxPrice * 2) + 1)].map((_, index) => {
           const price = index * 0.5;
+          if (index === 0) {
+            return (
+              <option key={price} value={price}>
+                {"All Prices"}
+              </option>
+            );
+          }
           if (price >= minPrice) {
             return (
               <option key={price} value={price}>
