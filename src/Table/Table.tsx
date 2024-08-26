@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef } from "react";
 import { AgGridReact } from "ag-grid-react";
 import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-material.css";
@@ -63,7 +63,7 @@ export const Table: React.FC<TableProps> = ({
   useEffect(() => {
     if (gridRef?.current?.api && filterModel !== null) {
       setFilterModel(gridRef.current.api.getFilterModel());
-    }
+    }// eslint-disable-next-line
   }, []);
   useEffect(() => {
     if (gridRef?.current?.api) {
@@ -104,7 +104,7 @@ export const Table: React.FC<TableProps> = ({
             }}
           >
             <span>{params.value}</span>
-            <img width={30} height={30} src={iconSrc[params.value]}></img>
+            <img alt= "iconLogo" width={30} height={30} src={iconSrc[params.value]}></img>
           </div>
         );
       },

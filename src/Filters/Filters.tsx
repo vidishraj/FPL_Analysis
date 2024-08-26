@@ -84,7 +84,8 @@ const Filters: React.FC<FilterProps> = ({
         onChange={handlePriceChange}
         className="price-dropdown modern-select"
       >
-        {[...Array(Math.ceil(maxPrice * 2) + 1)].map((_, index) => {
+        {// eslint-disable-next-line
+          [...Array(Math.ceil(maxPrice * 2) + 1)].map((_, index) => {
           const price = index * 0.5;
           if (index === 0) {
             return (

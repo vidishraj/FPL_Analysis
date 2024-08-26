@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useState } from "react";
+import React, { useCallback, useState } from "react";
 import { data } from "./sampleData";
 import Filters from "./Filters/Filters";
 import { Header } from "./Header/Header";
@@ -37,12 +37,6 @@ const App: React.FC = () => {
   };
 
   const handlePositionFilter = (position: string) => {
-    const posMap: any = {
-      4: "FOR",
-      3: "MID",
-      2: "DEF",
-      1: "GK",
-    };
     if (position === "" && filterModel) {
       let currentModel: any = filterModel;
       delete currentModel["data.priceInfo.Position"];
