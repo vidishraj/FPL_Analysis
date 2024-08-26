@@ -93,7 +93,7 @@ export const Table: React.FC<TableProps> = ({
     {
       headerName: "Team Name",
       field: "team.name",
-      filter: false,
+      filter: true,
       cellRenderer: (params: any) => {
         return (
           <div
@@ -117,7 +117,7 @@ export const Table: React.FC<TableProps> = ({
         return parseFloat(params.data.data.nowCost);
       },
       valueFormatter: currencyFormatter,
-      filter: false,
+      filter: true,
       width: 110,
     },
     {
@@ -132,7 +132,7 @@ export const Table: React.FC<TableProps> = ({
         };
         return `${positionMap[params.data.data.positionId]}`;
       },
-      filter: false,
+      filter: true,
       width: 130,
     },
     {
