@@ -28,6 +28,7 @@ def fetch_external_data():
 def awake():
     # This request is there to ensure that the server doesn't sleep.
     print("I am awake.")
+    return jsonify({"Message": "I am awake"}), 200
 
 
 @app.route('/data', methods=['GET'])
