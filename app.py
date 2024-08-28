@@ -68,7 +68,10 @@ def fetchTeamDetails():
 
 def getCurrentGW():
     try:
-        r = requests.get(base_url + 'bootstrap-static/')
+        r = requests.get(base_url + 'bootstrap-static/', headers={"User-Agent":"Mozilla/5.0 (Macintosh; Intel Mac OS "
+                                                                               "X 10_15_7) AppleWebKit/537.36 (KHTML,"
+                                                                               " like Gecko) Chrome/127.0.0.0 "
+                                                                               "Safari/537.36"})
         if r.status_code == 200:
             r = r.json()
             cgw = 1
@@ -92,8 +95,14 @@ def getCurrentGW():
 
 def getTeamIdsForTeam(team_id, gw):
     try:
-        r = requests.get(base_url + f'entry/{team_id}/event/{gw}/picks/')
-        if r.status_code==200:
+        r = requests.get(base_url + f'entry/{team_id}/event/{gw}/picks/', headers={"User-Agent": "Mozilla/5.0 ("
+                                                                                                 "Macintosh; Intel Mac"
+                                                                                                 " OS X 10_15_7) "
+                                                                                                 "AppleWebKit/537.36 ("
+                                                                                                 "KHTML, like Gecko) "
+                                                                                                 "Chrome/127.0.0.0 "
+                                                                                                 "Safari/537.36"})
+        if r.status_code == 200:
             r = r.json()
             return [item['element'] for item in r['picks']]
         else:
