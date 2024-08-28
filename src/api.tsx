@@ -3,11 +3,11 @@ import { setupCache } from "axios-cache-interceptor";
 
 const instance = Axios.create();
 const axios = setupCache(instance, { debug: console.log });
-
+const backend_Url = "https://fpl-analysis.onrender.com/";
 export async function callEP() {
   let cacheInstance = {};
   return axios
-    .get("/api/data", {
+    .get(backend_Url+"/data", {
       cache: cacheInstance,
       id: "fetch-data",
     })
@@ -20,7 +20,7 @@ export async function callEP() {
 }
 
 export function fetchTeam(teamId: string) {
-  return axios.get("/api/fetchTeam", {
+  return axios.get(backend_Url+"/fetchTeam", {
     params: {
       team_id: teamId,
     },
