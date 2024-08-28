@@ -46,11 +46,6 @@ def get_data():
         return jsonify({"error": "Failed to fetch data"}), 500
 
 
-def getTeamIdsForTeam(team_id, gw):
-    r = requests.get(base_url + f'entry/{team_id}/event/{gw}/picks/').json()
-    return [item['element'] for item in r['picks']]
-
-
 @app.route('/fetchTeam', methods=['GET'])
 def fetchTeamDetails():
     try:
@@ -71,6 +66,45 @@ def fetchTeamDetails():
         return jsonify({"error": "Failed to team details"}), 500
 
 
+def getCurrentGW():
+    try:
+        r = requests.get(base_url + 'bootstrap-static/')
+        if r.status_code == 200:
+            r = r.json()
+            cgw = 1
+            for week in r['events']:
+                if week['finished']:
+                    cgw = week['id']
+                else:
+                    break
+            if type(cgw) == int:
+                return cgw
+            else:
+                print("CurrentGW not found")
+                return -1
+        else:
+            print("Request failed")
+            print(r.text, r.request.headers, r.status_code)
+    except Exception as ex:
+        print(ex)
+        return -1
+
+
+def getTeamIdsForTeam(team_id, gw):
+    try:
+        r = requests.get(base_url + f'entry/{team_id}/event/{gw}/picks/')
+        if r.status_code==200:
+            r = r.json()
+            return [item['element'] for item in r['picks']]
+        else:
+            print("Request failed")
+            print(r.text, r.request.headers, r.status_code)
+            return []
+    except Exception as ex:
+        print(ex)
+        return []
+
+
 def fetchDataFromJson(teamIds):
     idMap = {}
     response = []
@@ -80,21 +114,6 @@ def fetchDataFromJson(teamIds):
         if idMap.get(playerData['fpl']['id']) is not None:
             response.append(playerData)
     return response
-
-
-def getCurrentGW():
-    r = requests.get(base_url + 'bootstrap-static/').json()
-    cgw = 1
-    for week in r['events']:
-        if week['finished']:
-            cgw = week['id']
-        else:
-            break
-    if type(cgw) == int:
-        return cgw
-    else:
-        print("CurrentGW not found")
-        return -1
 
 
 if __name__ == '__main__':
