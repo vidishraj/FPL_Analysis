@@ -61,7 +61,7 @@ const App: React.FC = () => {
           filterType: "number",
           type: "inRange",
           filter: 0.0,
-          filterTo: (price + 0.1) * 10,
+          filterTo: (price + 0.1),
         },
       }));
     }

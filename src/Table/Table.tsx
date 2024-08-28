@@ -72,7 +72,7 @@ export const Table: React.FC<TableProps> = ({
   }, [filterModel]);
   const currencyFormatter = (params: any) => {
     if (params.value) {
-      return `£${(params.value / 10).toFixed(1)}`;
+      return `£${(params.value).toFixed(1)}`;
     } else {
       return `£${0}`;
     }
@@ -119,10 +119,10 @@ export const Table: React.FC<TableProps> = ({
       headerName: "Cost",
       field: "data.nowCost",
       valueGetter: (params) => {
-        return parseFloat(params.data.data.nowCost);
+        return parseFloat(params.data.data.nowCost)/10;
       },
       valueFormatter: currencyFormatter,
-      filter: true,
+      filter:"agNumberColumnFilter",
       width: 110,
     },
     {
@@ -356,6 +356,7 @@ export const Table: React.FC<TableProps> = ({
         sideBar={sideBar}
         alwaysShowHorizontalScroll
         detailCellRendererParams={detailCellRendererParams}
+        // onFilterChanged={(params)=>{console.log(params.api.getFilterModel())}} //Useful for debugging filters
       />
     </div>
   );
