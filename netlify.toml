@@ -1,0 +1,13 @@
+[build]
+  publish = "build"  # The directory where your static files are located
+  command = "npm run build"  # The command to build your site
+
+[build.environment]
+  NODE_ENV = "production"
+
+[[redirects]]
+  from = "/api"
+  to = "https://fpl-analysis.onrender.com/"
+  status = 200  # Permanent redirect
+  force = true  # Force the redirect even if the file exists at the destination
+
