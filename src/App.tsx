@@ -1,23 +1,37 @@
-import React, { useCallback, useState } from "react";
-import { data } from "./sampleData";
+import React, { useCallback, useEffect, useState } from "react";
+import { data } from "./api";
 import Filters from "./Filters/Filters";
 import { Header } from "./Header/Header";
 import { Table } from "./Table/Table";
+import { Player } from "./Table/DataType";
 
 const App: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState<string>("");
-  const [filteredData, setFilteredData] = useState<any>(data);
-  const teams = Array.from(new Set(data.map((player) => player.team.name)));
+  const [filteredData, setFilteredData] = useState<Player[]>();
+  const teams = Array.from(
+    new Set(filteredData?.map((player) => player.team.name)),
+  );
   const positions = ["GK", "MID", "DEF", "FOR"];
-  const maxPrice = Math.max(...data.map((player) => player.data.nowCost / 10));
-  const minPrice = Math.min(...data.map((player) => player.data.nowCost / 10));
+  const maxPrice = Math.max(
+    ...(filteredData
+      ? filteredData.map((player) => player.data.nowCost / 10)
+      : [0]),
+  );
+  const minPrice = Math.min(
+    ...(filteredData
+      ? filteredData.map((player) => player.data.nowCost / 10)
+      : [5]),
+  );
   const [filterModel, setFilterModel] = useState(null);
-
+  useEffect(() => {
+    data().then((response: any) => {
+      setFilteredData(response.data);
+    });
+  }, []);
   const handleSearch = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     const query = e.target.value.toLowerCase();
     setSearchQuery(query);
-    let innerData: any = data;
-    const filtered = innerData.filter((item: any) =>
+    const filtered = filteredData?.filter((item: any) =>
       item.searchTerm.toLowerCase().includes(query),
     );
     setFilteredData(filtered);
@@ -61,7 +75,7 @@ const App: React.FC = () => {
           filterType: "number",
           type: "inRange",
           filter: 0.0,
-          filterTo: (price + 0.1),
+          filterTo: price + 0.1,
         },
       }));
     }
@@ -69,7 +83,7 @@ const App: React.FC = () => {
 
   return (
     <>
-      <Header />
+      <Header setFilteredData={setFilteredData} />
       <Filters
         handleSearch={handleSearch}
         onTeamFilter={handleTeamFilter}
