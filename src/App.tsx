@@ -35,6 +35,7 @@ const App: React.FC = () => {
       item.searchTerm.toLowerCase().includes(query),
     );
     setFilteredData(filtered);
+    // eslint-disable-next-line
   }, []);
 
   const handleTeamFilter = (team: string) => {
