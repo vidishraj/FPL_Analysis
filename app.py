@@ -24,6 +24,12 @@ def fetch_external_data():
         return None
 
 
+@app.route('/awake', methods=['GET'])
+def awake():
+    # This request is there to ensure that the server doesn't sleep.
+    print("I am awake.")
+
+
 @app.route('/data', methods=['GET'])
 def get_data():
     global last_fetched, response_data
@@ -91,5 +97,4 @@ def getCurrentGW():
 
 
 if __name__ == '__main__':
-    app.run()
-
+    app.run(debug=True)
