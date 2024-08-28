@@ -68,10 +68,8 @@ def fetchTeamDetails():
 
 def getCurrentGW():
     try:
-        r = requests.get(base_url + 'bootstrap-static/', headers={"User-Agent":"Mozilla/5.0 (Macintosh; Intel Mac OS "
-                                                                               "X 10_15_7) AppleWebKit/537.36 (KHTML,"
-                                                                               " like Gecko) Chrome/127.0.0.0 "
-                                                                               "Safari/537.36"})
+        r = requests.get(base_url + 'bootstrap-static/', headers={"User-Agent":"PostmanRuntime/7.41.2", })
+        print(r.request.headers)
         if r.status_code == 200:
             r = r.json()
             cgw = 1
@@ -108,10 +106,10 @@ def getTeamIdsForTeam(team_id, gw):
         else:
             print("Request failed")
             print(r.text, r.request.headers, r.status_code)
-            return []
+            return response_data
     except Exception as ex:
         print(ex)
-        return []
+        return response_data
 
 
 def fetchDataFromJson(teamIds):
