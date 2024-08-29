@@ -16,7 +16,6 @@ def fetchSession():
                                                    'csrftoken=kwiBFZXoZguKx6hitwbw7KUKm5uZsYsA;'})
     # Parse the response to find the CSRF token from the hidden input field
     soup = BeautifulSoup(response.text, 'html.parser')
-    print(response, soup)
     # Might need later
     token = soup.find('input', {'name': 'csrfmiddlewaretoken'})['value']
     if token:
@@ -30,6 +29,7 @@ def fetchSession():
 
         # Perform the login
         response = session.post(login_url, data=login_data, headers={"Referer": login_url})
+        print(response)
 
     return session
 
