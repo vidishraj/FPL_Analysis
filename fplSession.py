@@ -19,5 +19,17 @@ def fetchSession():
     print(response, soup)
     # Might need later
     token = soup.find('input', {'name': 'csrfmiddlewaretoken'})['value']
+    if token:
+        login_data = {
+            "csrfmiddlewaretoken": token,
+            "login": "vidishraj97@gmail.com",
+            "password": "Iamcoming_403",
+            "app": "plfpl-web",
+            "redirect_uri": "https://fantasy.premierleague.com/",
+        }
+
+        # Perform the login
+        response = session.post(login_url, data=login_data, headers={"Referer": login_url})
+
     return session
 
