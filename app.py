@@ -11,7 +11,7 @@ app = Flask(__name__)
 last_fetched = datetime.now()
 response_data = None
 base_url = 'https://fantasy.premierleague.com/api/'
-session = None
+session = fetchSession()
 
 
 def fetch_external_data():
@@ -126,6 +126,5 @@ def fetchDataFromJson(teamIds):
 
 
 if __name__ == '__main__':
-    session = fetchSession()
     CORS(app)
     app.run(debug=True)
