@@ -1,4 +1,4 @@
-from flask import Flask, jsonify
+from flask import Flask, jsonify, request
 from flask_cors import CORS
 from datetime import datetime, timedelta
 import requests
@@ -54,7 +54,7 @@ def fetchTeamDetails():
     try:
         if response_data is None:
             get_data()
-        teamId = session.args.get("team_id")
+        teamId = request.args.get("team_id")
         # Fetch current gameweek
         cgw = getCurrentGW()
 
