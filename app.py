@@ -6,6 +6,7 @@ import requests
 from fplSession import fetchSession
 
 app = Flask(__name__)
+CORS(app)
 
 # Initialize the variables
 last_fetched = datetime.now()
@@ -126,5 +127,4 @@ def fetchDataFromJson(teamIds):
 
 
 if __name__ == '__main__':
-    CORS(app)
     app.run(debug=True)
