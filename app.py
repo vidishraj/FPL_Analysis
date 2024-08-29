@@ -71,7 +71,7 @@ def fetchTeamDetails():
 
 def getCurrentGW():
     try:
-        r = session.get(base_url + 'bootstrap-static/', headers={"User-Agent": "PostmanRuntime/7.41.2", })
+        r = session.get(base_url + 'bootstrap-static/')
         print(r.request.headers)
         if r.status_code == 200:
             r = r.json()
