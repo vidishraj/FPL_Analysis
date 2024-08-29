@@ -1,22 +1,24 @@
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify
 from flask_cors import CORS
 from datetime import datetime, timedelta
 import requests
 
+from fplSession import fetchSession
+
 app = Flask(__name__)
-CORS(app)
 
 # Initialize the variables
 last_fetched = datetime.now()
 response_data = None
 base_url = 'https://fantasy.premierleague.com/api/'
+session = None
 
 
 def fetch_external_data():
     # Call the external endpoint
     external_url = "https://www.fantasyfootballhub.co.uk/player-data/player-data.json"  # Replace with actual external API URL
     try:
-        external_response = requests.get(external_url)
+        external_response = session.get(external_url)
         external_response.raise_for_status()  # Raise an error for bad status codes
         return external_response.json()
     except requests.exceptions.RequestException as e:
@@ -51,7 +53,7 @@ def fetchTeamDetails():
     try:
         if response_data is None:
             get_data()
-        teamId = request.args.get("team_id")
+        teamId = session.args.get("team_id")
         # Fetch current gameweek
         cgw = getCurrentGW()
 
@@ -68,7 +70,7 @@ def fetchTeamDetails():
 
 def getCurrentGW():
     try:
-        r = requests.get(base_url + 'bootstrap-static/', headers={"User-Agent":"PostmanRuntime/7.41.2", })
+        r = session.get(base_url + 'bootstrap-static/', headers={"User-Agent": "PostmanRuntime/7.41.2", })
         print(r.request.headers)
         if r.status_code == 200:
             r = r.json()
@@ -93,7 +95,7 @@ def getCurrentGW():
 
 def getTeamIdsForTeam(team_id, gw):
     try:
-        r = requests.get(base_url + f'entry/{team_id}/event/{gw}/picks/', headers={"User-Agent": "Mozilla/5.0 ("
+        r = session.get(base_url + f'entry/{team_id}/event/{gw}/picks/', headers={"User-Agent": "Mozilla/5.0 ("
                                                                                                  "Macintosh; Intel Mac"
                                                                                                  " OS X 10_15_7) "
                                                                                                  "AppleWebKit/537.36 ("
@@ -124,4 +126,6 @@ def fetchDataFromJson(teamIds):
 
 
 if __name__ == '__main__':
+    session = fetchSession()
+    CORS(app)
     app.run(debug=True)
