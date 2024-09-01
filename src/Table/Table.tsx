@@ -15,7 +15,6 @@ import "ag-grid-enterprise";
 import "./Table.scss";
 import { Player } from "./DataType";
 import TickMark from "../Icons/TickMark";
-import { ICellRendererParams } from "ag-grid-community";
 
 interface TableProps {
   data: Player[] | undefined;
