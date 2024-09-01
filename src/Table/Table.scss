@@ -1,3 +1,8 @@
 .ag-theme-material .ag-details-row {
   justify-content: center;
 }
+.ag-details-row {
+  margin: auto;
+  width: 500px;
+  /* or specify a fixed width, e.g., 300px */
+}

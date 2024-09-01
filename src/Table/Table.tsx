@@ -2,6 +2,9 @@ import { useEffect, useMemo, useRef } from "react";
 import { AgGridReact } from "ag-grid-react";
 import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-material.css";
+import "ag-grid-community/styles/ag-theme-quartz.css";
+import "ag-grid-community/styles/ag-theme-alpine.css";
+import "ag-grid-community/styles/ag-theme-balham.css";
 import {
   ColDef,
   FilterModel,
@@ -15,7 +18,7 @@ import TickMark from "../Icons/TickMark";
 import { ICellRendererParams } from "ag-grid-community";
 
 interface TableProps {
-  data: Player[];
+  data: Player[] | undefined;
   filterModel: FilterModel | null;
   setFilterModel: any;
 }
@@ -74,7 +77,7 @@ export const Table: React.FC<TableProps> = ({
   }, [filterModel]);
   const currencyFormatter = (params: any) => {
     if (params.value) {
-      return `£${(params.value / 10).toFixed(1)}`;
+      return `£${params.value.toFixed(1)}`;
     } else {
       return `£${0}`;
     }
@@ -117,8 +120,8 @@ export const Table: React.FC<TableProps> = ({
             <span>{params.value}</span>
             <img
               alt="iconLogo"
-              width={30}
-              height={30}
+              width={25}
+              height={25}
               src={iconSrc[params.value]}
             ></img>
           </div>
@@ -130,10 +133,10 @@ export const Table: React.FC<TableProps> = ({
       headerName: "Cost",
       field: "data.nowCost",
       valueGetter: (params) => {
-        return parseFloat(params.data.data.nowCost);
+        return parseFloat(params.data.data.nowCost) / 10;
       },
       valueFormatter: currencyFormatter,
-      filter: true,
+      filter: "agNumberColumnFilter",
       width: 110,
     },
     {
@@ -355,8 +358,12 @@ export const Table: React.FC<TableProps> = ({
   }, []);
   return (
     <div
-      className="ag-theme-material"
-      style={{ height: 600, width: "100%", border: "0.2px solid black" }}
+      className="ag-theme-alpine"
+      style={{
+        height: "calc(100vh - 275px)",
+        width: "100%",
+        border: "0.2px solid black",
+      }}
     >
       <AgGridReact
         ref={gridRef}
@@ -367,7 +374,8 @@ export const Table: React.FC<TableProps> = ({
         sideBar={sideBar}
         alwaysShowHorizontalScroll
         detailCellRendererParams={detailCellRendererParams}
-        />
+        // onFilterChanged={(params)=>{console.log(params.api.getFilterModel())}} //Useful for debugging filters
+      />
     </div>
   );
 };
