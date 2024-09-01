@@ -11,6 +11,8 @@ import {
 import "ag-grid-enterprise";
 import "./Table.scss";
 import { Player } from "./DataType";
+import TickMark from "../Icons/TickMark";
+import { ICellRendererParams } from "ag-grid-community";
 
 interface TableProps {
   data: Player[];
@@ -81,7 +83,16 @@ export const Table: React.FC<TableProps> = ({
     {
       headerName: "Name",
       field: "webName",
-      cellRenderer: "agGroupCellRenderer",
+      // cellRenderer: "agGroupCellRenderer",
+      cellRenderer: (params:any)=>{
+        return (
+          <>
+          {params.value}
+          {params.data.fpl.in_dreamteam && (
+            <span style={{marginLeft: "1rem", verticalAlign:"middle"}}><TickMark/></span>
+          )}</>
+        )
+      },
       sortable: false,
       cellDataType: "text",
       suppressColumnsToolPanel: true,
@@ -356,7 +367,7 @@ export const Table: React.FC<TableProps> = ({
         sideBar={sideBar}
         alwaysShowHorizontalScroll
         detailCellRendererParams={detailCellRendererParams}
-      />
+        />
     </div>
   );
 };
