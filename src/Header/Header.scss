@@ -1,40 +1,47 @@
 .submitButton {
   display: block;
-  border: 0px;
-  border-radius: 3px;
-  background-image: linear-gradient(
-    to right,
-    rgb(0, 255, 135),
-    rgb(2, 239, 255)
-  );
-  color: rgb(55, 0, 60);
+border:none;
+  border-radius: 5%;
+  color:white;
+  background-color:rgb(88, 6, 94) ;
   font-family: PremierSans-Bold, Arial, "Helvetica Neue", Helvetica, sans-seriff;
-  font-size: 1.2rem;
-  box-shadow: rgba(0, 0, 0, 0.5) 1px 1px 10px -4px;
+  font-size: 1rem;
+  padding:0.5rem 1rem;
+  font-weight:700;
   cursor: pointer;
 }
 
 .cancelButton {
-  font-size: 1.2rem;
-  background-color: rgb(192, 2, 13);
-  box-shadow: rgba(0, 0, 0, 0.5) 1px 1px 10px -4px;
-  color: white;
+  border-style: solid;
+  border-width: 0.5px;
+  border-color: rgb(155, 155, 155);
+  background-color: white;
+  color: black;
+  font-size: 1rem;
+  padding:0.5rem 1rem;
+  font-weight:700;
   cursor: pointer;
 }
 
-dialog {
-  height: 40%;
-  width: 20%;
-  background-image: linear-gradient(rgba(255, 255, 255, 0) 180px, white 320px),
-    url("/bgPattern.png"),
-    linear-gradient(to right, rgb(2, 239, 255), rgb(98, 123, 255));
-  background-size:
-    auto,
-    653px 925px,
-    auto;
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5); 
+  z-index: 2000; 
+  display: block;
+}
+
+.dialogSection{
+  height: 27%;
+  width: 25%;
+border:none;
+border-radius:5%;
+padding:2rem;
 }
 .inputContainer {
-  // background-color: aqua;
   height: 70%;
   display: flex;
   align-items: center;
@@ -67,15 +74,13 @@ input[type="number"] {
   display: flex;
   flex-direction: column;
   align-items: center;
+  margin-top:1rem;
 }
 .teamLabel {
-  font-size: 1.4rem;
+  font-size: 1rem;
   font-weight: 700;
-  color: rgb(255, 255, 255);
-  text-decoration: underline;
   display: inline-block;
-  margin: 0px 0.4rem 0.8rem 0px;
-  cursor: pointer;
+  text-align: center;
 }
 
 .teamidInput {
@@ -87,7 +92,8 @@ input[type="number"] {
   line-height: normal;
   box-sizing: inherit;
   display: block;
-  width: 100%;
+  width: 14rem;
+  height: 1rem;
   padding: 1.4rem 1rem;
   border: 0px;
   border-radius: 2px 2px 0px 0px;

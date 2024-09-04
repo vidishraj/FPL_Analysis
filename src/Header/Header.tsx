@@ -5,9 +5,12 @@ import "./Header.scss";
 export const Header = ({setFilteredData}:{setFilteredData:any}) => {
   const dialogRef = useRef<any>();
   const [teamId, setTeamId] = useState<string|undefined>();
+  const [isOpen, setIsOpen]= useState<boolean>(false);
+
   function openDialog() {
     if (dialogRef) {
       dialogRef.current.showModal();
+      setIsOpen(true);
     }
   }
   function fetchTeamDetails() {
@@ -43,7 +46,7 @@ export const Header = ({setFilteredData}:{setFilteredData:any}) => {
         ></img>
         <img alt={"logoLetter"} src="logoWritten.png" height={70}></img>
       </div>
-      <div style={{ height: "70px", marginRight: "1%" }}>
+      <div style={{ height: "70px", marginRight: "1%"}}>
         <button
           style={{
             margin: 0,
@@ -54,20 +57,22 @@ export const Header = ({setFilteredData}:{setFilteredData:any}) => {
             borderRight: "0.5px white solid",
             fontFamily:
               '"PremierSans-Heavy", Arial, "Helvetica Neue", Helvetica, sans-serif',
-            fontSize: "1.4rem",
+            fontSize: "1rem",
             textWrap: "nowrap",
             padding: "5px 5px",
             fontWeight: "700",
+            cursor:"pointer"
           }}
           onClick={openDialog}
         >
           Connect FPL team
         </button>
       </div>
-      <dialog ref={dialogRef}>
+      {isOpen && <div className="modalOverlay"/>}
+      <dialog ref={dialogRef} className="dialogSection">
         <form className="labelContainer">
           <label htmlFor="ismLeagueName">
-            <span className="teamLabel">Team ID</span>
+            <span className="teamLabel">Please plug in your FPL Team ID</span>
           </label>
           <div className="inputContainer">
             <input
@@ -86,9 +91,10 @@ export const Header = ({setFilteredData}:{setFilteredData:any}) => {
             className="cancelButton"
             onClick={() => {
               dialogRef.current.close();
+              setIsOpen(false);
             }}
           >
-            Close
+            Cancel
           </button>
         </div>
       </dialog>
