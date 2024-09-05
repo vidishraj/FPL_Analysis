@@ -1,15 +1,15 @@
-import { useEffect, useMemo, useRef } from "react";
-import { AgGridReact } from "ag-grid-react";
-import "ag-grid-community/styles/ag-grid.css";
-import "ag-grid-community/styles/ag-theme-material.css";
-import "ag-grid-community/styles/ag-theme-quartz.css";
-import "ag-grid-community/styles/ag-theme-alpine.css";
-import "ag-grid-community/styles/ag-theme-balham.css";
+import { useEffect, useRef } from 'react';
+import { AgGridReact } from 'ag-grid-react';
+import 'ag-grid-community/styles/ag-grid.css';
+import 'ag-grid-community/styles/ag-theme-material.css';
+import 'ag-grid-community/styles/ag-theme-quartz.css';
+import 'ag-grid-community/styles/ag-theme-alpine.css';
+import 'ag-grid-community/styles/ag-theme-balham.css';
 import { ColDef, FilterModel, SideBarDef } from 'ag-grid-community';
 import 'ag-grid-enterprise';
 import './Table.scss';
 import { Player } from '../Types/DataType';
-import { League, Standing } from '../Types/LeagueType';
+import { Standing } from '../Types/LeagueType';
 
 interface TableProps {
   data: Player[] | undefined | Standing[];

@@ -1,6 +1,5 @@
 import GlobalFilters from '../Filters/GlobalFilters';
 import { Table } from '../Table/Table';
-import { Player } from '../Types/DataType';
 import { useFplContext } from '../Contexts/context';
 import {
   globalDetailCellRendererParams,
@@ -8,7 +7,7 @@ import {
   globalColumnDefs,
 } from '../Table/ColumnDefs/GlobalTableDefs';
 const GlobalPage = () => {
-  const { state, dispatch } = useFplContext();
+  const { state } = useFplContext();
   return (
     <>
       <GlobalFilters />

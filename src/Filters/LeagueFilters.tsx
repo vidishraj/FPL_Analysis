@@ -1,11 +1,10 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import './Filters.scss';
-import { Player } from '../Types/DataType';
 import { useFplContext } from '../Contexts/context';
 import { useLocation, useNavigate } from 'react-router-dom';
 interface FilterProps {}
 
-const LeagueFilters: React.FC<FilterProps> = ({}) => {
+const LeagueFilters: React.FC<FilterProps> = () => {
   const { state, dispatch } = useFplContext();
   const [leagueId, setLeagueId] = useState<string | undefined | null>('');
   const location = useLocation();
@@ -46,7 +45,7 @@ const LeagueFilters: React.FC<FilterProps> = ({}) => {
           },
         });
       }
-    },
+    }, // eslint-disable-next-line react-hooks/exhaustive-deps
     []
   );
   const handleTeamSearch = useCallback(
@@ -78,7 +77,7 @@ const LeagueFilters: React.FC<FilterProps> = ({}) => {
           },
         });
       }
-    },
+    }, // eslint-disable-next-line react-hooks/exhaustive-deps
     []
   );
 

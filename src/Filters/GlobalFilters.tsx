@@ -4,7 +4,7 @@ import { Player } from '../Types/DataType';
 import { useFplContext } from '../Contexts/context';
 interface FilterProps {}
 
-const GlobalFilters: React.FC<FilterProps> = ({}) => {
+const GlobalFilters: React.FC<FilterProps> = () => {
   const { state, dispatch } = useFplContext();
   const [minPrice, setMinPrice] = useState<number>(0);
   const [maxPrice, setMaxPrice] = useState<number>(0);
@@ -30,7 +30,7 @@ const GlobalFilters: React.FC<FilterProps> = ({}) => {
       Array.from(
         new Set(state.globalTable?.map((player: Player) => player.team.name))
       )
-    );
+    ); // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   const handleSearch = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     const query = e.target.value.toLowerCase();
@@ -59,7 +59,7 @@ const GlobalFilters: React.FC<FilterProps> = ({}) => {
           },
         },
       });
-    }
+    } // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handleTeamFilter = (team: string) => {
