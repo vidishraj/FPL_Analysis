@@ -25,12 +25,14 @@ def awake():
 @app.route('/data', methods=['GET'])
 def get_data():
     global last_fetched
-
     # Check if an hour has passed or if response is None
     if static.response_data is None or datetime.now() - last_fetched > timedelta(hours=1):
         print("Fetching data from external API")
+        # Fetch Data
         static.response_data = fetch_external_data()
+        # Calculate min_max data
         static.response_data = calculateMinMax(static.response_data)
+        # Update last_fetched
         last_fetched = datetime.now()
     if static.response_data:
         return jsonify(static.response_data)
@@ -46,12 +48,10 @@ def fetchTeamDetails():
         teamId = request.args.get("team_id")
         # Fetch current game week
         cgw = getCurrentGW()
-
         # fetchTeamDetailsForLastGW
         teamIds = getTeamIdsForTeam(teamId, cgw)
         # fetch Corresponding rows in our json
         teamDetails = fetchDataFromJson(teamIds)
-
         return jsonify(teamDetails)
     except Exception as ex:
         print(ex)
@@ -64,14 +64,11 @@ def fetchLeagueDetails():
         if static.response_data is None:
             get_data()
         leagueId = request.args.get("league_id")
-        # fetch Corresponding rows in our json
         leagueDetails = fetchLeague(leagueId)
-
         return jsonify(leagueDetails)
     except Exception as ex:
         print("Error while fetching league", ex)
         return jsonify({"error": "Failed to team details"}), 500
-
 
 # if __name__ == '__main__':
 #     app.run(debug=False, use_reloader=False)

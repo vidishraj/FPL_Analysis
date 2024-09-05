@@ -1,4 +1,6 @@
+# Will be initialised with the response data from api.
 response_data = None
+# Contains the weights and attributes we use in our score calculations
 min_max_values = {
     "fpl_ownership": {
         "min": float('inf'),
@@ -261,4 +263,5 @@ min_max_values = {
         }
     }
 }
+# Base url of the backend url
 base_url = 'https://fantasy.premierleague.com/api/'

@@ -4,7 +4,7 @@ from utils import getCurrentGW, fetchDataFromJson, getTeamIdsForTeam
 
 
 def fetchLeague(leagueId):
-    """We will fill the top 100 in our response"""
+    """We will only fetch the top 100 players and calculate the metrics for them"""
     page = 1
     firstResponse = requests.get(f"https://fantasy.premierleague.com/api/leagues-classic/{leagueId}/standings"
                                  f"/?page_standings={page}")
@@ -22,17 +22,32 @@ def fetchLeague(leagueId):
                                         f"/page_standings={page}/").json()
             for item in responseJson['standings']['results']:
                 responseObject['standings'].append(item)
-        # Top max(playerInLeague, 100) players found. Now fetch the teams individually and calculate the metrics
+        # Top max(playerInLeague, 100) players found. Now fetch the teams individually
         responseObject = fetchTeams(responseObject)
+        # Object filled with each player's team. We calculate the metrics now.
         responseObject = calculateMetrics(responseObject)
     return responseObject
 
 
+def fetchTeams(leagueDetails):
+    cgw = getCurrentGW()
+    for player in leagueDetails['standings']:
+        # fetchTeamDetailsForLastGW
+        teamIds = getTeamIdsForTeam(player['entry'], cgw)
+        # fetch Corresponding rows in our json
+        player['team'] = fetchDataFromJson(teamIds)
+    return leagueDetails
+
+
 def calculateMetrics(leagueDetails):
     for leaguePlayer in leagueDetails['standings']:
+        # Score for forwards and midfielders
         attackScore = 0
+        # Score for only defenders and gks
         defenseScore = 0
+        # Complete team score
         overallScore = 0
+        # Find current team value. Add up all the costs
         teamValue = 0
         for player in leaguePlayer['team']:
             teamValue += player['data']['nowCost']
@@ -46,14 +61,4 @@ def calculateMetrics(leagueDetails):
         leaguePlayer['overallScore'] = overallScore
         leaguePlayer['attackScore'] = attackScore
         leaguePlayer['defenseScore'] = defenseScore
-    return leagueDetails
-
-
-def fetchTeams(leagueDetails):
-    cgw = getCurrentGW()
-    for player in leagueDetails['standings']:
-        # fetchTeamDetailsForLastGW
-        teamIds = getTeamIdsForTeam(player['entry'], cgw)
-        # fetch Corresponding rows in our json
-        player['team'] = fetchDataFromJson(teamIds)
     return leagueDetails
