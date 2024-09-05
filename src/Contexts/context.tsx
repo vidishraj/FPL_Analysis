@@ -1,11 +1,18 @@
 import React, { createContext, useReducer, Dispatch, useContext } from 'react';
-import { Player } from '../Table/DataType'; // Import the Player type from your types file
-import { League } from '../Table/LeagueType';
+import { Player } from '../Types/DataType'; // Import the Player type from your types file
+import { League } from '../Types/LeagueType';
+import { FilterModel } from 'ag-grid-community';
 
 interface PageState {
   globalPage: boolean;
   teamPage: boolean;
   leaguePage: boolean;
+}
+
+interface FilterModels {
+  globalFilterModel: FilterModel;
+  teamFilterModel: FilterModel;
+  leagueFilterModel: FilterModel;
 }
 
 // Define the types for the context state
@@ -14,6 +21,9 @@ interface TableState {
   teamTable: Player[] | undefined;
   globalTable: Player[] | undefined;
   pageState: PageState;
+  filterModels: FilterModels;
+  team: string | null | undefined;
+  league: string | null | undefined;
 }
 
 // Define initial state
@@ -26,6 +36,13 @@ const initialState: TableState = {
     teamPage: false,
     leaguePage: false,
   },
+  filterModels: {
+    globalFilterModel: {},
+    teamFilterModel: {},
+    leagueFilterModel: {},
+  },
+  team: null,
+  league: null,
 };
 
 // Define action types
@@ -33,7 +50,12 @@ type Action =
   | { type: 'SET_LEAGUE_TABLE'; payload: League | undefined }
   | { type: 'SET_TEAM_TABLE'; payload: Player[] | undefined }
   | { type: 'SET_GLOBAL_TABLE'; payload: Player[] | undefined }
-  | { type: 'SET_PAGE'; payload: string };
+  | { type: 'SET_GLOBAL_PAGE' }
+  | { type: 'SET_TEAMS_PAGE' }
+  | { type: 'SET_LEAGUE_PAGE' }
+  | { type: 'SET_FILTER_MODEL'; payload: FilterModel }
+  | { type: 'SET_TEAM'; payload: string | null | undefined }
+  | { type: 'SET_LEAGUE'; payload: string | null | undefined };
 
 // Create the reducer function
 const tableReducer = (state: TableState, action: Action): TableState => {
@@ -44,14 +66,41 @@ const tableReducer = (state: TableState, action: Action): TableState => {
       return { ...state, teamTable: action.payload };
     case 'SET_GLOBAL_TABLE':
       return { ...state, globalTable: action.payload };
-    case 'SET_PAGE':
+    case 'SET_GLOBAL_PAGE':
       return {
         ...state,
-        pageState: {
-          ...state.pageState,
-          [action['payload']]: true,
+        pageState: { globalPage: true, teamPage: false, leaguePage: false },
+      };
+    case 'SET_TEAMS_PAGE':
+      return {
+        ...state,
+        pageState: { globalPage: false, teamPage: true, leaguePage: false },
+      };
+    case 'SET_LEAGUE_PAGE':
+      return {
+        ...state,
+        pageState: { globalPage: false, teamPage: false, leaguePage: true },
+      };
+
+    case 'SET_FILTER_MODEL':
+      return {
+        ...state,
+        filterModels: {
+          ...state.filterModels,
+          [action['payload']['modelName']]: action.payload.model,
         },
       };
+    case 'SET_TEAM':
+      return {
+        ...state,
+        team: action.payload,
+      };
+    case 'SET_LEAGUE':
+      return {
+        ...state,
+        league: action.payload,
+      };
+
     default:
       return state;
   }
