@@ -1,6 +1,5 @@
-import { ColDef, GetDetailRowDataParams, SideBarDef } from 'ag-grid-community';
+import { ColDef, GetDetailRowDataParams } from 'ag-grid-community';
 import { iconSrc } from '../../Icons/Icons';
-import { useMemo } from 'react';
 
 const currencyFormatter = (params: any) => {
   if (params.value) {

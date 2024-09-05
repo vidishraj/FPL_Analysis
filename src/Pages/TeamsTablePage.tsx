@@ -33,7 +33,7 @@ const TeamsPage = () => {
         type: 'SET_TEAM',
         payload: lCTeam,
       });
-    }
+    } // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [paramTeam]);
 
   const addParamToUrl = (key: string, value: string) => {

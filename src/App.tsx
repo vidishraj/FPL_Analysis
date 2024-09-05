@@ -16,6 +16,7 @@ const App: React.FC = () => {
         payload: response.data,
       });
     });
+    // eslint-disable-next-line
   }, []);
 
   return (

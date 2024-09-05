@@ -5,7 +5,7 @@ import { useFplContext } from '../Contexts/context';
 import { useLocation, useNavigate } from 'react-router-dom';
 interface FilterProps {}
 
-const TeamFilters: React.FC<FilterProps> = ({}) => {
+const TeamFilters: React.FC<FilterProps> = () => {
   const { state, dispatch } = useFplContext();
   const [minPrice, setMinPrice] = useState<number>(0);
   const location = useLocation();
@@ -40,7 +40,7 @@ const TeamFilters: React.FC<FilterProps> = ({}) => {
       Array.from(
         new Set(state.teamTable?.map((player: Player) => player.team.name))
       )
-    );
+    ); // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handleSearch = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
@@ -70,7 +70,7 @@ const TeamFilters: React.FC<FilterProps> = ({}) => {
           },
         },
       });
-    }
+    } // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handleTeamFilter = (team: string) => {

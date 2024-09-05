@@ -29,7 +29,7 @@ const LeaguePage = () => {
         type: 'SET_LEAGUE',
         payload: lcLeague,
       });
-    }
+    } // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [paramLeague]);
 
   const addParamToUrl = (key: string, value: string) => {
