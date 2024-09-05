@@ -51,6 +51,11 @@ dialog {
   }
 }
 
+@media(max-width:700px){
+  .headerButtons{
+    flex-direction: column !important;
+  }
+}
 /* Chrome, Safari, Edge, Opera */
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {

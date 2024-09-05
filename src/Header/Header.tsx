@@ -1,103 +1,82 @@
-import { useRef, useState } from "react";
-import { fetchTeam } from "../api";
-import "./Header.scss";
-import { ReactComponent as Logo } from "../Icons/logo.svg";
-import { ReactComponent as LogoWritten } from "../Icons/logoWritten.svg";
-export const Header = ({ setFilteredData }: { setFilteredData: any }) => {
-  const dialogRef = useRef<any>();
-  const [teamId, setTeamId] = useState<string | undefined>();
-  function openDialog() {
-    if (dialogRef) {
-      dialogRef.current.showModal();
-    }
-  }
-  function fetchTeamDetails() {
-    if (teamId) {
-      fetchTeam(teamId)
-        .then((response) => {
-          if (Array.isArray(response.data)) {
-            setFilteredData(response.data);
-          }
-        })
-        .catch((err) => {
-          console.log("error fetching team", err);
-        })
-        .finally(() => {
-          setTeamId("");
-          dialogRef.current.close();
-        });
-    }
-  }
+import './Header.scss';
+import { ReactComponent as Logo } from '../Icons/logo.svg';
+import { ReactComponent as LogoWritten } from '../Icons/logoWritten.svg';
+import { useFplContext } from '../Contexts/context';
+
+export const Header = () => {
+  const { dispatch } = useFplContext();
 
   return (
     <>
       <div
         style={{
-          backgroundColor: "#37003c",
-          display: "flex",
-          flexWrap: "nowrap",
-          alignItems: "center",
-          justifyContent: "space-between",
+          backgroundColor: '#37003c',
+          display: 'flex',
+          flexWrap: 'nowrap',
+          alignItems: 'center',
+          justifyContent: 'space-between',
         }}
       >
         <div
           style={{
-            display: "flex",
-            flexWrap: "nowrap",
-            flexBasis: "70%",
-            height: "70px",
+            display: 'flex',
+            flexWrap: 'nowrap',
+            flexBasis: '70%',
+            height: '70px',
             // background: "pink",
           }}
         >
           <Logo
             style={{
-              flexBasis: "20%",
-              maxWidth: "fit-content",
-              borderRadius: "25px",
+              flexBasis: '20%',
+              maxWidth: 'fit-content',
+              borderRadius: '25px',
             }}
           ></Logo>
           <LogoWritten
-            style={{ flexBasis: "80%", maxWidth: "fit-content" }}
+            style={{ flexBasis: '80%', maxWidth: 'fit-content' }}
           ></LogoWritten>
         </div>
-        <div style={{ flexBasis: "10%" }}>
-          <button className="responsive-button" onClick={openDialog}>
-            Connect FPL team
-          </button>
-        </div>
-      </div>
-      <dialog ref={dialogRef}>
-        <form className="labelContainer">
-          <label htmlFor="ismLeagueName">
-            <span className="teamLabel">Team ID</span>
-          </label>
-          <div className="inputContainer">
-            <input
-              id="ismLeagueName"
-              maxLength={10}
-              className="teamidInput"
-              type={"number"}
-              value={teamId}
-              onChange={(params) => {
-                setTeamId(params.target.value);
-              }}
-            />
-          </div>
-        </form>
-        <div className="buttonContainer">
-          <button className="submitButton" onClick={fetchTeamDetails}>
-            Submit
-          </button>
-          <button
-            className="cancelButton"
-            onClick={() => {
-              dialogRef.current.close();
+        <div
+          className="headerButtons"
+          style={{
+            display: 'flex',
+            flexBasis: '50%',
+            flexWrap: 'nowrap',
+            alignItems: 'flex-end',
+            justifyContent: 'space-around',
+          }}
+        >
+          <div
+            style={{
+              textWrap: 'nowrap',
             }}
           >
-            Close
-          </button>
+            <button
+              className="responsive-button"
+              onClick={() => dispatch({ type: 'SET_GLOBAL_PAGE' })}
+            >
+              All Players
+            </button>
+          </div>
+          <div style={{ textWrap: 'nowrap' }}>
+            <button
+              className="responsive-button"
+              onClick={() => dispatch({ type: 'SET_TEAMS_PAGE' })}
+            >
+              Connect FPL team
+            </button>
+          </div>
+          <div style={{ textWrap: 'nowrap' }}>
+            <button
+              className="responsive-button"
+              onClick={() => dispatch({ type: 'SET_LEAGUE_PAGE' })}
+            >
+              Connect FPL league
+            </button>
+          </div>
         </div>
-      </dialog>
+      </div>
     </>
   );
 };
