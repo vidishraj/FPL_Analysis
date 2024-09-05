@@ -8,35 +8,52 @@ import { Player } from "./Table/DataType";
 const App: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [filteredData, setFilteredData] = useState<Player[]>();
-  const teams = Array.from(
-    new Set(filteredData?.map((player) => player.team.name)),
-  );
+  const [minPrice, setMinPrice] = useState<number>(0);
+  const [maxPrice, setMaxPrice] = useState<number>(0);
+  const [teams, setTeams] = useState<string[]>([]);
+
   const positions = ["GK", "MID", "DEF", "FOR"];
-  const maxPrice = Math.max(
-    ...(filteredData
-      ? filteredData.map((player) => player.data.nowCost / 10)
-      : [0]),
-  );
-  const minPrice = Math.min(
-    ...(filteredData
-      ? filteredData.map((player) => player.data.nowCost / 10)
-      : [5]),
-  );
+
   const [filterModel, setFilterModel] = useState(null);
   useEffect(() => {
     data().then((response: any) => {
       setFilteredData(response.data);
+      setMaxPrice(
+        Math.max(
+          ...(response.data
+            ? response.data.map((player: Player) => player.data.nowCost / 10)
+            : [0]),
+        ),
+      );
+      setMinPrice(
+        Math.min(
+          ...(response.data
+            ? response.data.map((player: Player) => player.data.nowCost / 10)
+            : [5]),
+        ),
+      );
+      setTeams(
+        Array.from(
+          new Set(response.data?.map((player: Player) => player.team.name)),
+        ),
+      );
     });
   }, []);
-  const handleSearch = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
-    const query = e.target.value.toLowerCase();
-    setSearchQuery(query);
-    const filtered = filteredData?.filter((item: any) =>
-      item.searchTerm.toLowerCase().includes(query),
-    );
-    setFilteredData(filtered);
-    // eslint-disable-next-line
-  }, []);
+  const handleSearch = useCallback(
+    (
+      e: React.ChangeEvent<HTMLInputElement>,
+      filteredData: Player[] | undefined,
+    ) => {
+      const query = e.target.value.toLowerCase();
+      setSearchQuery(query);
+      const filtered = filteredData?.filter((item: any) =>
+        item.searchTerm.toLowerCase().includes(query),
+      );
+      setFilteredData(filtered);
+      // eslint-disable-next-line
+    },
+    [],
+  );
 
   const handleTeamFilter = (team: string) => {
     if (team === "" && filterModel) {
@@ -86,7 +103,9 @@ const App: React.FC = () => {
     <>
       <Header setFilteredData={setFilteredData} />
       <Filters
-        handleSearch={handleSearch}
+        handleSearch={(e: any) => {
+          handleSearch(e, filteredData);
+        }}
         onTeamFilter={handleTeamFilter}
         onPositionFilter={handlePositionFilter}
         onPriceFilter={handlePriceFilter}
