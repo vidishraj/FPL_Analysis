@@ -3,28 +3,16 @@ from flask_cors import CORS
 from datetime import datetime, timedelta
 import requests
 
-from fplSession import fetchSession
+import static
+from league import fetchLeague
+
+from utils import getCurrentGW, getTeamIdsForTeam, fetchDataFromJson, calculateMinMax, fetch_external_data
 
 app = Flask(__name__)
 CORS(app)
-
 # Initialize the variables
+
 last_fetched = datetime.now()
-response_data = None
-base_url = 'https://fantasy.premierleague.com/api/'
-session = fetchSession()
-
-
-def fetch_external_data():
-    # Call the external endpoint
-    external_url = "https://www.fantasyfootballhub.co.uk/player-data/player-data.json"  # Replace with actual external API URL
-    try:
-        external_response = session.get(external_url)
-        external_response.raise_for_status()  # Raise an error for bad status codes
-        return external_response.json()
-    except requests.exceptions.RequestException as e:
-        print(f"Error fetching data: {e}")
-        return None
 
 
 @app.route('/awake', methods=['GET'])
@@ -36,15 +24,16 @@ def awake():
 
 @app.route('/data', methods=['GET'])
 def get_data():
-    global last_fetched, response_data
+    global last_fetched
 
     # Check if an hour has passed or if response is None
-    if response_data is None or datetime.now() - last_fetched > timedelta(hours=1):
+    if static.response_data is None or datetime.now() - last_fetched > timedelta(hours=1):
         print("Fetching data from external API")
-        response_data = fetch_external_data()
+        static.response_data = fetch_external_data()
+        static.response_data = calculateMinMax(static.response_data)
         last_fetched = datetime.now()
-    if response_data:
-        return jsonify(response_data)
+    if static.response_data:
+        return jsonify(static.response_data)
     else:
         return jsonify({"error": "Failed to fetch data"}), 500
 
@@ -52,10 +41,10 @@ def get_data():
 @app.route('/fetchTeam', methods=['GET'])
 def fetchTeamDetails():
     try:
-        if response_data is None:
+        if static.response_data is None:
             get_data()
         teamId = request.args.get("team_id")
-        # Fetch current gameweek
+        # Fetch current game week
         cgw = getCurrentGW()
 
         # fetchTeamDetailsForLastGW
