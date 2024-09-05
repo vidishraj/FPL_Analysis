@@ -58,62 +58,20 @@ def fetchTeamDetails():
         return jsonify({"error": "Failed to team details"}), 500
 
 
-def getCurrentGW():
+@app.route('/fetchLeague', methods=['GET'])
+def fetchLeagueDetails():
     try:
-        r = session.get(base_url + 'bootstrap-static/')
-        print(r.request.headers)
-        if r.status_code == 200:
-            r = r.json()
-            cgw = 1
-            for week in r['events']:
-                if week['finished']:
-                    cgw = week['id']
-                else:
-                    break
-            if type(cgw) == int:
-                return cgw
-            else:
-                print("CurrentGW not found")
-                return -1
-        else:
-            print("Request failed")
-            print(r.text, r.request.headers, r.status_code)
+        if static.response_data is None:
+            get_data()
+        leagueId = request.args.get("league_id")
+        # fetch Corresponding rows in our json
+        leagueDetails = fetchLeague(leagueId)
+
+        return jsonify(leagueDetails)
     except Exception as ex:
-        print(ex)
-        return -1
-
-
-def getTeamIdsForTeam(team_id, gw):
-    try:
-        r = session.get(base_url + f'entry/{team_id}/event/{gw}/picks/', headers={"User-Agent": "Mozilla/5.0 ("
-                                                                                                 "Macintosh; Intel Mac"
-                                                                                                 " OS X 10_15_7) "
-                                                                                                 "AppleWebKit/537.36 ("
-                                                                                                 "KHTML, like Gecko) "
-                                                                                                 "Chrome/127.0.0.0 "
-                                                                                                 "Safari/537.36"})
-        if r.status_code == 200:
-            r = r.json()
-            return [item['element'] for item in r['picks']]
-        else:
-            print("Request failed")
-            print(r.text, r.request.headers, r.status_code)
-            return response_data
-    except Exception as ex:
-        print(ex)
-        return response_data
-
-
-def fetchDataFromJson(teamIds):
-    idMap = {}
-    response = []
-    for playerId in teamIds:
-        idMap[playerId] = True
-    for playerData in response_data:
-        if idMap.get(playerData['fpl']['id']) is not None:
-            response.append(playerData)
-    return response
+        print("Error while fetching league", ex)
+        return jsonify({"error": "Failed to team details"}), 500
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=False, use_reloader=False)
