@@ -17,12 +17,14 @@ const LeaguePage = () => {
   useEffect(() => {
     const lcLeague = localStorage.getItem('league_Id');
     if (paramLeague) {
-      dispatch({
-        type: 'SET_LEAGUE',
-        payload: paramLeague,
-      });
-      fetchLeagueDetails(paramLeague);
-      localStorage.setItem('league_ud', paramLeague);
+      if (state.leagueTable === undefined || paramLeague !== lcLeague) {
+        fetchLeagueDetails(paramLeague);
+        dispatch({
+          type: 'SET_LEAGUE',
+          payload: paramLeague,
+        });
+        localStorage.setItem('league_Id', paramLeague);
+      }
     } else if (lcLeague !== null) {
       fetchLeagueDetails(lcLeague);
       addParamToUrl('league_Id', lcLeague);

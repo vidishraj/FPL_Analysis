@@ -20,12 +20,14 @@ const TeamsPage = () => {
   useEffect(() => {
     const lCTeam = localStorage.getItem('teamID');
     if (paramTeam) {
-      fetchTeamDetails(paramTeam);
-      dispatch({
-        type: 'SET_TEAM',
-        payload: paramTeam,
-      });
-      localStorage.setItem('teamID', paramTeam);
+      if (state.teamTable === undefined || paramTeam !== lCTeam) {
+        fetchTeamDetails(paramTeam);
+        dispatch({
+          type: 'SET_TEAM',
+          payload: paramTeam,
+        });
+        localStorage.setItem('teamID', paramTeam);
+      }
     } else if (lCTeam !== null) {
       fetchTeamDetails(lCTeam);
       addParamToUrl('team_Id', lCTeam);
