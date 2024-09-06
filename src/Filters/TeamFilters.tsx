@@ -205,6 +205,7 @@ const TeamFilters: React.FC<FilterProps> = () => {
         </div>
         <button
           style={{ flexBasis: '10%', maxWidth: 'fit-content' }}
+          className="custom-button"
           onClick={() => {
             if (teamID) {
               addParamToUrl('team_Id', teamID);
