@@ -15,7 +15,7 @@ export const LeagueColumnDefs: ColDef[] = [
     filter: 'agTextColumnFilter',
   },
   {
-    headerName: 'Entry Name',
+    headerName: 'Team Name',
     field: 'entry_name',
     sortable: true,
     filter: 'agTextColumnFilter',
