@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { AgGridReact } from 'ag-grid-react';
 import 'ag-grid-community/styles/ag-grid.css';
 import 'ag-grid-community/styles/ag-theme-material.css';
@@ -14,7 +14,7 @@ import { Standing } from '../Types/LeagueType';
 interface TableProps {
   data: Player[] | undefined | Standing[];
   filterModel: FilterModel | null;
-  sideBar: SideBarDef | string | string[] | boolean | null;
+  sideBar: any;
   columnDef: ColDef[];
   detailCellRenderer?: any;
   masterDetail: boolean;
@@ -35,6 +35,21 @@ export const Table: React.FC<TableProps> = ({
       gridRef.current.api.setFilterModel(filterModel);
     }
   }, [filterModel]);
+
+  function updateSidebarConfig() {
+    if (sideBar && window.outerWidth < 700 && gridRef.current.api) {
+      gridRef.current.api.closeToolPanel();
+    } else if (sideBar && gridRef.current.api) {
+      gridRef.current.api.openToolPanel('columns');
+    }
+  }
+  useEffect(() => {
+    updateSidebarConfig();
+    window.addEventListener('resize', updateSidebarConfig);
+    return () => {
+      window.removeEventListener('resize', updateSidebarConfig);
+    };
+  }, []);
 
   return (
     <div
