@@ -2,7 +2,7 @@ import Axios from 'axios';
 import { setupCache } from 'axios-cache-interceptor';
 
 const instance = Axios.create();
-const axios = setupCache(instance, { debug: console.log });
+export const axios = setupCache(instance, { debug: console.log });
 
 const backend_Url = 'https://ministerial-wilie-akkountant-9398452e.koyeb.app/';
 const dev = false;
