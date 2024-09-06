@@ -24,6 +24,7 @@ interface TableState {
   filterModels: FilterModels;
   team: string | null | undefined;
   league: string | null | undefined;
+  loading: boolean;
 }
 
 // Define initial state
@@ -43,16 +44,18 @@ const initialState: TableState = {
   },
   team: null,
   league: null,
+  loading: true,
 };
 
 // Define action types
-type Action =
+export type Action =
   | { type: 'SET_LEAGUE_TABLE'; payload: League | undefined }
   | { type: 'SET_TEAM_TABLE'; payload: Player[] | undefined }
   | { type: 'SET_GLOBAL_TABLE'; payload: Player[] | undefined }
   | { type: 'SET_GLOBAL_PAGE' }
   | { type: 'SET_TEAMS_PAGE' }
   | { type: 'SET_LEAGUE_PAGE' }
+  | { type: 'SET_LOADING'; payload: boolean }
   | { type: 'SET_FILTER_MODEL'; payload: FilterModel }
   | { type: 'SET_TEAM'; payload: string | null | undefined }
   | { type: 'SET_LEAGUE'; payload: string | null | undefined };
@@ -99,6 +102,11 @@ const tableReducer = (state: TableState, action: Action): TableState => {
       return {
         ...state,
         league: action.payload,
+      };
+    case 'SET_LOADING':
+      return {
+        ...state,
+        loading: action.payload,
       };
 
     default:
