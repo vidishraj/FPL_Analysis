@@ -105,19 +105,36 @@ const LeagueFilters: React.FC<FilterProps> = () => {
           placeholder="Search User..."
           className="modern-input"
         />
-        <input
-          maxLength={10}
-          onInput={(e: any) => {
-            if (e.target.value.length > 10)
-              e.target.value = e.target.value.slice(0, 10);
+        <div
+          style={{
+            flexBasis: '15%',
+            display: 'flex',
+            flexDirection: 'column',
           }}
-          defaultValue={state.league ? parseInt(state.league) : undefined}
-          onChange={(e) => setLeagueId(e.target.value)}
-          type={'number'}
-          style={{ flexBasis: '15%' }}
-          placeholder="League ID"
-          className="modern-input"
-        />
+        >
+          <input
+            maxLength={10}
+            onInput={(e: any) => {
+              if (e.target.value.length > 10)
+                e.target.value = e.target.value.slice(0, 10);
+            }}
+            defaultValue={state.league ? parseInt(state.league) : undefined}
+            onChange={(e) => setLeagueId(e.target.value)}
+            type={'number'}
+            placeholder="League ID"
+            className="modern-input"
+          />
+          <span
+            style={{
+              fontSize: '0.75rem',
+              color: 'grey',
+              display: 'block',
+              textAlign: 'left',
+            }}
+          >
+            *987770 for Area FPL
+          </span>
+        </div>
         <button
           style={{ flexBasis: '10%', maxWidth: 'fit-content' }}
           onClick={() => {
