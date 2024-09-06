@@ -22,6 +22,7 @@ const LeaguePage = () => {
         payload: paramLeague,
       });
       fetchLeagueDetails(paramLeague);
+      localStorage.setItem('league_ud', paramLeague);
     } else if (lcLeague !== null) {
       fetchLeagueDetails(lcLeague);
       addParamToUrl('league_Id', lcLeague);
