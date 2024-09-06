@@ -53,7 +53,7 @@ export const Header = () => {
             }}
           >
             <button
-              className="responsive-button"
+              className="custom-button"
               onClick={() => dispatch({ type: 'SET_GLOBAL_PAGE' })}
             >
               All Players
@@ -61,7 +61,7 @@ export const Header = () => {
           </div>
           <div style={{ textWrap: 'nowrap' }}>
             <button
-              className="responsive-button"
+              className="custom-button"
               onClick={() => dispatch({ type: 'SET_TEAMS_PAGE' })}
             >
               Connect FPL team
@@ -69,7 +69,7 @@ export const Header = () => {
           </div>
           <div style={{ textWrap: 'nowrap' }}>
             <button
-              className="responsive-button"
+              className="custom-button"
               onClick={() => dispatch({ type: 'SET_LEAGUE_PAGE' })}
             >
               Connect FPL league

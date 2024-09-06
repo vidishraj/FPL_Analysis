@@ -137,6 +137,7 @@ const LeagueFilters: React.FC<FilterProps> = () => {
         </div>
         <button
           style={{ flexBasis: '10%', maxWidth: 'fit-content' }}
+          className="custom-button"
           onClick={() => {
             if (leagueId) {
               addParamToUrl('league_Id', leagueId);
