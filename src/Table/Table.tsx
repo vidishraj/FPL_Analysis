@@ -1,11 +1,11 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
 import { AgGridReact } from 'ag-grid-react';
 import 'ag-grid-community/styles/ag-grid.css';
 import 'ag-grid-community/styles/ag-theme-material.css';
 import 'ag-grid-community/styles/ag-theme-quartz.css';
 import 'ag-grid-community/styles/ag-theme-alpine.css';
 import 'ag-grid-community/styles/ag-theme-balham.css';
-import { ColDef, FilterModel, SideBarDef } from 'ag-grid-community';
+import { ColDef, FilterModel } from 'ag-grid-community';
 import 'ag-grid-enterprise';
 import './Table.scss';
 import { Player } from '../Types/DataType';
@@ -48,7 +48,7 @@ export const Table: React.FC<TableProps> = ({
     window.addEventListener('resize', updateSidebarConfig);
     return () => {
       window.removeEventListener('resize', updateSidebarConfig);
-    };
+    }; // eslint-disable-next-line
   }, []);
 
   return (
