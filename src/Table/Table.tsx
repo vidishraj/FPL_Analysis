@@ -36,20 +36,6 @@ export const Table: React.FC<TableProps> = ({
     }
   }, [filterModel]);
 
-  function updateSidebarConfig() {
-    if (sideBar && window.outerWidth < 700 && gridRef.current.api) {
-      gridRef.current.api.closeToolPanel();
-    } else if (sideBar && gridRef.current.api) {
-      gridRef.current.api.openToolPanel('columns');
-    }
-  }
-  useEffect(() => {
-    updateSidebarConfig();
-    window.addEventListener('resize', updateSidebarConfig);
-    return () => {
-      window.removeEventListener('resize', updateSidebarConfig);
-    }; // eslint-disable-next-line
-  }, []);
 
   return (
     <div
@@ -69,6 +55,18 @@ export const Table: React.FC<TableProps> = ({
         sideBar={sideBar}
         alwaysShowHorizontalScroll
         detailCellRendererParams={detailCellRenderer}
+        onGridReady={(params) => {
+          if (window.outerWidth < 700) {
+            params.api.closeToolPanel();
+          }
+        }}
+        onGridSizeChanged={(params) => {
+          if (params.clientWidth < 700) {
+            params.api.closeToolPanel();
+          } else {
+            params.api.openToolPanel('columns');
+          }
+        }}
         // onFilterChanged={(params) => {
         //   console.log(params.api.getFilterModel());
         // }} //Useful for debugging filters
