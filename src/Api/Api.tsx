@@ -1,8 +1,8 @@
-import Axios from 'axios';
-import { setupCache } from 'axios-cache-interceptor';
+import axios from 'axios';
+// import { setupCache } from 'axios-cache-interceptor';
 
-const instance = Axios.create();
-export const axios = setupCache(instance, { debug: console.log });
+// const instance = Axios.create();
+// export const axios = setupCache(instance, { debug: console.log });
 
 const backend_Url = 'https://ministerial-wilie-akkountant-9398452e.koyeb.app/';
 const dev = false;
@@ -11,10 +11,7 @@ const local = 'http://127.0.0.1:5000';
 export async function callEP() {
   let cacheInstance = {};
   return axios
-    .get(`${dev ? local : backend_Url}/data`, {
-      cache: cacheInstance,
-      id: 'fetch-data',
-    })
+    .get(`${dev ? local : backend_Url}/data`)
     .then((response) => {
       return response;
     })
