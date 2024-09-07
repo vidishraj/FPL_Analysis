@@ -18,20 +18,12 @@ const LeaguePage = () => {
     const lcLeague = localStorage.getItem('league_Id');
     if (paramLeague) {
       if (state.leagueTable === undefined || paramLeague !== lcLeague) {
-        fetchLeagueDetails(paramLeague);
-        dispatch({
-          type: 'SET_LEAGUE',
-          payload: paramLeague,
-        });
         localStorage.setItem('league_Id', paramLeague);
+        fetchLeagueDetails(paramLeague);
       }
     } else if (lcLeague !== null) {
-      fetchLeagueDetails(lcLeague);
       addParamToUrl('league_Id', lcLeague);
-      dispatch({
-        type: 'SET_LEAGUE',
-        payload: lcLeague,
-      });
+      fetchLeagueDetails(lcLeague);
     } // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [paramLeague]);
 
@@ -40,18 +32,34 @@ const LeaguePage = () => {
     searchParams.set(key, value); // Add or update the parameter
     navigate(`${location.pathname}?${searchParams.toString()}`);
   };
+  const removeParamFromUrl = (key: string) => {
+    const searchParams = new URLSearchParams(location.search);
+    searchParams.delete(key); // Remove the parameter by key
+    return `${location.pathname}?${searchParams.toString()}`;
+  };
 
   function fetchLeagueDetails(leagueId: string | undefined) {
     if (leagueId) {
       addParamToUrl('league_Id', leagueId.toString());
       fetchLeague(leagueId)
-        .then((response) => {
+        .then((response: any) => {
           dispatch({
             type: 'SET_LEAGUE_TABLE',
             payload: response.data,
           });
+          dispatch({
+            type: 'SET_LEAGUE',
+            payload: paramLeague,
+          });
         })
         .catch((err) => {
+          dispatch({
+            type: 'SET_LEAGUE_TABLE',
+            payload: { leagueId: '', standings: [], name: '' },
+          });
+          const path = removeParamFromUrl('league_Id');
+          localStorage.removeItem('league_Id');
+          navigate(path);
           console.log('error fetching league', err);
         })
         .finally(() => {});
