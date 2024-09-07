@@ -1,3 +1,4 @@
+import concurrent.futures
 import requests
 
 from utils import getCurrentGW, fetchDataFromJson, getTeamIdsForTeam
@@ -19,8 +20,9 @@ def fetchLeague(leagueId):
         try:
             while responseJson['standings']["has_next"] == True and len(responseObject['standings']) < 100:
                 page += 1
-                responseJson = requests.get(f"https://fantasy.premierleague.com/api/leagues-classic/{leagueId}/standings"
-                                            f"/page_standings={page}/")
+                responseJson = requests.get(
+                    f"https://fantasy.premierleague.com/api/leagues-classic/{leagueId}/standings"
+                    f"/page_standings={page}/")
                 responseJson = responseJson.json()
                 for item in responseJson['standings']['results']:
                     responseObject['standings'].append(item)
@@ -33,13 +35,22 @@ def fetchLeague(leagueId):
     return responseObject
 
 
+def fetchTeamDetails(player, cgw):
+    """Fetch team details for a given player."""
+    teamIds = getTeamIdsForTeam(player['entry'], cgw)
+    player['team'] = fetchDataFromJson(teamIds)
+    return player
+
+
 def fetchTeams(leagueDetails):
     cgw = getCurrentGW()
-    for player in leagueDetails['standings']:
-        # fetchTeamDetailsForLastGW
-        teamIds = getTeamIdsForTeam(player['entry'], cgw)
-        # fetch Corresponding rows in our json
-        player['team'] = fetchDataFromJson(teamIds)
+    # Use ThreadPoolExecutor for multithreading
+    with concurrent.futures.ThreadPoolExecutor() as executor:
+        futures = [executor.submit(fetchTeamDetails, player, cgw) for player in leagueDetails['standings']]
+        for future in concurrent.futures.as_completed(futures):
+            # Might need for later
+            player_result = future.result()
+
     return leagueDetails
 
 
