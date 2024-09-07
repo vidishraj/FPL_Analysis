@@ -1,7 +1,7 @@
 import { ColDef, GetDetailRowDataParams } from 'ag-grid-community';
 import { iconSrc } from '../../Icons/Icons';
 
-const currencyFormatter = (params: any) => {
+export const currencyFormatter = (params: any) => {
   if (params.value) {
     return `£${params.value.toFixed(1)}`;
   } else {
