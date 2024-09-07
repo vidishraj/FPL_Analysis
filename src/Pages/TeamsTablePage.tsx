@@ -21,20 +21,12 @@ const TeamsPage = () => {
     const lCTeam = localStorage.getItem('teamID');
     if (paramTeam) {
       if (state.teamTable === undefined || paramTeam !== lCTeam) {
-        fetchTeamDetails(paramTeam);
-        dispatch({
-          type: 'SET_TEAM',
-          payload: paramTeam,
-        });
         localStorage.setItem('teamID', paramTeam);
+        fetchTeamDetails(paramTeam);
       }
     } else if (lCTeam !== null) {
-      fetchTeamDetails(lCTeam);
       addParamToUrl('team_Id', lCTeam);
-      dispatch({
-        type: 'SET_TEAM',
-        payload: lCTeam,
-      });
+      fetchTeamDetails(lCTeam);
     } // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [paramTeam]);
 
@@ -42,6 +34,11 @@ const TeamsPage = () => {
     const searchParams = new URLSearchParams(location.search);
     searchParams.set(key, value); // Add or update the parameter
     navigate(`${location.pathname}?${searchParams.toString()}`);
+  };
+  const removeParamFromUrl = (key: string) => {
+    const searchParams = new URLSearchParams(location.search);
+    searchParams.delete(key); // Remove the parameter by key
+    return `${location.pathname}?${searchParams.toString()}`;
   };
 
   function fetchTeamDetails(teamId: string | undefined) {
@@ -54,9 +51,20 @@ const TeamsPage = () => {
               type: 'SET_TEAM_TABLE',
               payload: response.data,
             });
+            dispatch({
+              type: 'SET_TEAM',
+              payload: paramTeam,
+            });
           }
         })
         .catch((err) => {
+          dispatch({
+            type: 'SET_TEAM_TABLE',
+            payload: [],
+          });
+          const path = removeParamFromUrl('team_Id');
+          localStorage.removeItem('teamID');
+          navigate(path);
           console.log('error fetching team', err);
         })
         .finally(() => {});

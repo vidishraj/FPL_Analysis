@@ -24,7 +24,7 @@ const TeamFilters: React.FC<FilterProps> = () => {
   useEffect(() => {
     setMaxPrice(
       Math.max(
-        ...(state.teamTable
+        ...(state.teamTable && state.teamTable.length > 0
           ? state.teamTable.map((player: Player) => player.data.nowCost / 10)
           : [0])
       )
@@ -245,7 +245,7 @@ const TeamFilters: React.FC<FilterProps> = () => {
         onChange={(e) => handlePriceFilter(parseFloat(e.target.value))}
         className="price-dropdown modern-select"
       >
-        {
+        {maxPrice !== 0 &&
           // eslint-disable-next-line
           [...Array(Math.ceil(maxPrice * 2) + 1)].map((_, index) => {
             const price = index * 0.5;
@@ -263,8 +263,7 @@ const TeamFilters: React.FC<FilterProps> = () => {
                 </option>
               );
             }
-          })
-        }
+          })}
       </select>
     </div>
   );
