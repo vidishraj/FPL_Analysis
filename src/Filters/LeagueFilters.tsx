@@ -84,7 +84,7 @@ const LeagueFilters: React.FC<FilterProps> = () => {
   return (
     <div className="player-filters">
       <div
-        className="search-bar"
+        className="search-bar leagueSearch"
         style={{
           display: 'flex',
           flexWrap: 'nowrap',
@@ -95,15 +95,15 @@ const LeagueFilters: React.FC<FilterProps> = () => {
           type="text"
           style={{ flexBasis: '30%' }}
           onChange={(e) => handleTeamSearch(e)}
-          placeholder="Search Team..."
-          className="modern-input"
+          placeholder="Team Search..."
+          className="modern-input teamSearchLeague"
         />
         <input
           type="text"
           style={{ flexBasis: '30%' }}
           onChange={(e) => handleNameSearch(e)}
-          placeholder="Search User..."
-          className="modern-input"
+          placeholder="User Search..."
+          className="modern-input playerSearchLeague"
         />
         <div
           style={{
@@ -111,6 +111,7 @@ const LeagueFilters: React.FC<FilterProps> = () => {
             display: 'flex',
             flexDirection: 'column',
           }}
+          className="leagueID"
         >
           <input
             maxLength={10}
