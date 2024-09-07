@@ -9,7 +9,6 @@ const dev = false;
 const local = 'http://127.0.0.1:5000';
 
 export async function callEP() {
-  let cacheInstance = {};
   return axios
     .get(`${dev ? local : backend_Url}/data`)
     .then((response) => {
