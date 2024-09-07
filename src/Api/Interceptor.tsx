@@ -1,5 +1,5 @@
 import { Action } from '../Contexts/context';
-import { axios } from './Api';
+import axios from 'axios';
 
 export const setupAxiosInterceptors = (dispatch: React.Dispatch<Action>) => {
   axios.interceptors.request.use((config) => {
