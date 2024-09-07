@@ -16,12 +16,16 @@ def fetchLeague(leagueId):
             "name": responseJson['league']['name'],
             "standings": [item for item in responseJson['standings']['results']]
         }
-        while responseJson['standings']["has_next"] and len(responseObject['standings']) < 100:
-            page += 1
-            responseJson = requests.get(f"https://fantasy.premierleague.com/api/leagues-classic/{leagueId}/standings"
-                                        f"/page_standings={page}/").json()
-            for item in responseJson['standings']['results']:
-                responseObject['standings'].append(item)
+        try:
+            while responseJson['standings']["has_next"] == True and len(responseObject['standings']) < 100:
+                page += 1
+                responseJson = requests.get(f"https://fantasy.premierleague.com/api/leagues-classic/{leagueId}/standings"
+                                            f"/page_standings={page}/")
+                responseJson = responseJson.json()
+                for item in responseJson['standings']['results']:
+                    responseObject['standings'].append(item)
+        except Exception as ex:
+            print("End", ex)
         # Top max(playerInLeague, 100) players found. Now fetch the teams individually
         responseObject = fetchTeams(responseObject)
         # Object filled with each player's team. We calculate the metrics now.
