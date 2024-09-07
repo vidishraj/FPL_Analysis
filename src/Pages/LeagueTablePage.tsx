@@ -43,7 +43,7 @@ const LeaguePage = () => {
   function showTeamButton(params: any) {
     function showTeam() {
       state.leagueTable?.standings.forEach((item) => {
-        if (item.rank == params.data.rank) {
+        if (item.rank === params.data.rank) {
           setTeamShown(item.team);
           return;
         }
