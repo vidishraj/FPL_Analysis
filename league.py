@@ -45,7 +45,7 @@ def fetchTeamDetails(player, cgw):
 def fetchTeams(leagueDetails):
     cgw = getCurrentGW()
     # Use ThreadPoolExecutor for multithreading
-    with concurrent.futures.ThreadPoolExecutor() as executor:
+    with concurrent.futures.ThreadPoolExecutor(max_workers=2) as executor:
         futures = [executor.submit(fetchTeamDetails, player, cgw) for player in leagueDetails['standings']]
         for future in concurrent.futures.as_completed(futures):
             # Might need for later
