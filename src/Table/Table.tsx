@@ -57,6 +57,7 @@ export const Table: React.FC<TableProps> = ({
         detailCellRendererParams={detailCellRenderer}
         onGridReady={(params) => {
           if (window.outerWidth < 700) {
+            params.api.setColumnsPinned(['player_name'], 'left');
             params.api.closeToolPanel();
           }
         }}
