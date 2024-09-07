@@ -58,6 +58,12 @@ export const Table: React.FC<TableProps> = ({
         onGridReady={(params) => {
           if (window.outerWidth < 700) {
             params.api.setColumnsPinned(['player_name'], 'left');
+            params.api.setColumnWidths([
+              {
+                key: 'player_name',
+                newWidth: 150,
+              },
+            ]);
             params.api.closeToolPanel();
           }
         }}
