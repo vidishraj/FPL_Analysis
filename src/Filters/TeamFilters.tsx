@@ -170,7 +170,7 @@ const TeamFilters: React.FC<FilterProps> = () => {
           type="text"
           onChange={(e) => handleSearch(e)}
           placeholder="Search..."
-          className="modern-input"
+          className="modern-input search"
         />
         <div
           style={{
@@ -178,6 +178,7 @@ const TeamFilters: React.FC<FilterProps> = () => {
             display: 'flex',
             flexDirection: 'column',
           }}
+          className="teamId"
         >
           <input
             maxLength={10}
