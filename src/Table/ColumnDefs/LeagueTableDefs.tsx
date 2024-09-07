@@ -24,17 +24,25 @@ export const LeagueColumnDefs: ColDef[] = [
     filter: 'agTextColumnFilter',
   },
   {
+    headerName: 'Team',
+    filter: false,
+    sortable: false,
+    width: 130,
+  },
+  {
     headerName: 'Team Value',
     field: 'teamValue',
     valueFormatter: currencyFormatter,
     sortable: true,
     filter: 'agNumberColumnFilter',
+    width: 160,
   },
   {
     headerName: 'Total Points',
     field: 'total',
     sortable: true,
     filter: 'agNumberColumnFilter',
+    width: 150,
   },
   {
     headerName: 'AI Attack Score',
@@ -44,6 +52,7 @@ export const LeagueColumnDefs: ColDef[] = [
     },
     sortable: true,
     filter: 'agNumberColumnFilter',
+    width: 180,
   },
   {
     headerName: 'AI Defense Score',
@@ -53,6 +62,7 @@ export const LeagueColumnDefs: ColDef[] = [
     },
     sortable: true,
     filter: 'agNumberColumnFilter',
+    width: 200,
   },
   {
     headerName: 'AI Overall Score',
@@ -62,18 +72,21 @@ export const LeagueColumnDefs: ColDef[] = [
       return `${params.value.toFixed(3)}`;
     },
     filter: 'agNumberColumnFilter',
+    width: 180,
   },
   {
     headerName: 'Entry ID',
     field: 'entry',
     hide: true,
     filter: 'agNumberColumnFilter',
+    width: 120,
   },
   {
     headerName: 'Last GW Total',
     field: 'event_total',
     sortable: true,
     filter: 'agNumberColumnFilter',
+    width: 170,
   },
   {
     headerName: 'ID',

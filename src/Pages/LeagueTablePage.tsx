@@ -1,18 +1,19 @@
 import { Table } from '../Table/Table';
 import { useFplContext } from '../Contexts/context';
-import { sideBar } from '../Table/ColumnDefs/GlobalTableDefs';
+import { globalColumnDefs, sideBar } from '../Table/ColumnDefs/GlobalTableDefs';
 import LeagueFilters from '../Filters/LeagueFilters';
 import { LeagueColumnDefs } from '../Table/ColumnDefs/LeagueTableDefs';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { fetchLeague } from '../Api/Api';
+import { Player } from '../Types/DataType';
 
 const LeaguePage = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
   const paramLeague = queryParams.get('league_Id');
-
+  const [teamShown, setTeamShown] = useState<Player[] | undefined>(undefined);
   const { state, dispatch } = useFplContext();
   useEffect(() => {
     const lcLeague = localStorage.getItem('league_Id');
@@ -37,7 +38,24 @@ const LeaguePage = () => {
     searchParams.delete(key); // Remove the parameter by key
     return `${location.pathname}?${searchParams.toString()}`;
   };
+  LeagueColumnDefs[3].cellRenderer = (params: any) => showTeamButton(params);
 
+  function showTeamButton(params: any) {
+    function showTeam() {
+      state.leagueTable?.standings.forEach((item) => {
+        if (item.rank == params.data.rank) {
+          setTeamShown(item.team);
+          return;
+        }
+      });
+    }
+    return (
+      <button className="custom-button" onClick={showTeam}>
+        {' '}
+        Show Team
+      </button>
+    );
+  }
   function fetchLeagueDetails(leagueId: string | undefined) {
     if (leagueId) {
       addParamToUrl('league_Id', leagueId.toString());
@@ -70,20 +88,46 @@ const LeaguePage = () => {
       <LeagueFilters />
       <div
         style={{
-          padding: '5px 5px',
-          backgroundColor: 'whitesmoke',
-          color: '',
-          border: '0.5px solid grey',
-          width: 'fit-content',
+          display: 'flex',
+          justifyContent: 'space-between',
         }}
       >
-        {' '}
-        **Click on column header to sort! Slower scrolling on mobiles!
+        <div
+          style={{
+            padding: '5px 5px',
+            backgroundColor: 'whitesmoke',
+            color: '',
+            border: '0.5px solid grey',
+            width: 'fit-content',
+          }}
+        >
+          **Click on column header to sort! Slower scrolling on mobiles!
+        </div>
+        {teamShown && (
+          <button
+            style={{
+              marginInlineEnd: '1%',
+              backgroundColor: 'red',
+              color: 'white',
+            }}
+            onClick={() => setTeamShown(undefined)}
+            className="custom-button"
+          >
+            {' '}
+            Back{' '}
+          </button>
+        )}
       </div>
       <Table
-        data={state.leagueTable ? state.leagueTable.standings : []}
+        data={
+          teamShown
+            ? teamShown
+            : state.leagueTable
+            ? state.leagueTable.standings
+            : []
+        }
         filterModel={state.filterModels.leagueFilterModel}
-        columnDef={LeagueColumnDefs}
+        columnDef={teamShown ? globalColumnDefs : LeagueColumnDefs}
         masterDetail={true}
         sideBar={sideBar}
       />
