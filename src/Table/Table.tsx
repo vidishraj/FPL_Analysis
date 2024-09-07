@@ -51,7 +51,11 @@ export const Table: React.FC<TableProps> = ({
         rowData={data}
         columnDefs={columnDef}
         masterDetail={masterDetail}
-        defaultColDef={{ sortable: true, filter: true }}
+        defaultColDef={{
+          sortable: true,
+          filter: true,
+          cellStyle: { textAlign: 'center' },
+        }}
         sideBar={sideBar}
         alwaysShowHorizontalScroll
         detailCellRendererParams={detailCellRenderer}
@@ -73,6 +77,9 @@ export const Table: React.FC<TableProps> = ({
           } else {
             params.api.openToolPanel('columns');
           }
+        }}
+        gridOptions={{
+          suppressBrowserResizeObserver: true,
         }}
         // onFilterChanged={(params) => {
         //   console.log(params.api.getFilterModel());
