@@ -128,7 +128,7 @@ const LeaguePage = () => {
         }
         filterModel={state.filterModels.leagueFilterModel}
         columnDef={teamShown ? globalColumnDefs : LeagueColumnDefs}
-        masterDetail={true}
+        masterDetail={false}
         sideBar={sideBar}
       />
     </>
