@@ -1,4 +1,5 @@
 import { ColDef } from 'ag-grid-community';
+import { currencyFormatter } from './GlobalTableDefs';
 
 export const LeagueColumnDefs: ColDef[] = [
   {
@@ -6,11 +7,13 @@ export const LeagueColumnDefs: ColDef[] = [
     field: 'rank',
     sortable: true,
     width: 110,
+    pinned: 'left',
     filter: 'agNumberColumnFilter',
   },
   {
     headerName: 'Player Name',
     field: 'player_name',
+    pinned: 'left',
     sortable: true,
     filter: 'agTextColumnFilter',
   },
@@ -23,17 +26,18 @@ export const LeagueColumnDefs: ColDef[] = [
   {
     headerName: 'Team Value',
     field: 'teamValue',
+    valueFormatter: currencyFormatter,
     sortable: true,
     filter: 'agNumberColumnFilter',
   },
   {
-    headerName: 'Total',
+    headerName: 'Total Points',
     field: 'total',
     sortable: true,
     filter: 'agNumberColumnFilter',
   },
   {
-    headerName: 'Attack Score',
+    headerName: 'AI Attack Score',
     field: 'attackScore',
     valueFormatter: (params: any) => {
       return `${params.value.toFixed(3)}`;
@@ -42,7 +46,7 @@ export const LeagueColumnDefs: ColDef[] = [
     filter: 'agNumberColumnFilter',
   },
   {
-    headerName: 'Defense Score',
+    headerName: 'AI Defense Score',
     field: 'defenseScore',
     valueFormatter: (params: any) => {
       return `${params.value.toFixed(3)}`;
@@ -51,7 +55,7 @@ export const LeagueColumnDefs: ColDef[] = [
     filter: 'agNumberColumnFilter',
   },
   {
-    headerName: 'Overall Score',
+    headerName: 'AI Overall Score',
     field: 'overallScore',
     sortable: true,
     valueFormatter: (params: any) => {
