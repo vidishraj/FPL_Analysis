@@ -7,17 +7,20 @@ interface PageState {
   globalPage: boolean;
   teamPage: boolean;
   leaguePage: boolean;
+  liveLeaguePage: boolean;
 }
 
 interface FilterModels {
   globalFilterModel: FilterModel;
   teamFilterModel: FilterModel;
   leagueFilterModel: FilterModel;
+  liveLeagueFilterModel: FilterModel;
 }
 
 // Define the types for the context state
 interface TableState {
   leagueTable: League | undefined;
+  liveLeagueTable: any | undefined;
   teamTable: Player[] | undefined;
   globalTable: Player[] | undefined;
   pageState: PageState;
@@ -32,15 +35,18 @@ const initialState: TableState = {
   leagueTable: undefined,
   teamTable: undefined,
   globalTable: undefined,
+  liveLeagueTable: undefined,
   pageState: {
     globalPage: true,
     teamPage: false,
     leaguePage: false,
+    liveLeaguePage: false,
   },
   filterModels: {
     globalFilterModel: {},
     teamFilterModel: {},
     leagueFilterModel: {},
+    liveLeagueFilterModel: {},
   },
   team: null,
   league: null,
@@ -52,9 +58,11 @@ export type Action =
   | { type: 'SET_LEAGUE_TABLE'; payload: League | undefined }
   | { type: 'SET_TEAM_TABLE'; payload: Player[] | undefined }
   | { type: 'SET_GLOBAL_TABLE'; payload: Player[] | undefined }
+  | { type: 'SET_LIVE_LEAGUE_TABLE'; payload: any }
   | { type: 'SET_GLOBAL_PAGE' }
   | { type: 'SET_TEAMS_PAGE' }
   | { type: 'SET_LEAGUE_PAGE' }
+  | { type: 'SET_LIVE_LEAGUE_PAGE' }
   | { type: 'SET_LOADING'; payload: boolean }
   | { type: 'SET_FILTER_MODEL'; payload: FilterModel }
   | { type: 'SET_TEAM'; payload: string | null | undefined }
@@ -72,17 +80,42 @@ const tableReducer = (state: TableState, action: Action): TableState => {
     case 'SET_GLOBAL_PAGE':
       return {
         ...state,
-        pageState: { globalPage: true, teamPage: false, leaguePage: false },
+        pageState: {
+          globalPage: true,
+          teamPage: false,
+          leaguePage: false,
+          liveLeaguePage: false,
+        },
       };
     case 'SET_TEAMS_PAGE':
       return {
         ...state,
-        pageState: { globalPage: false, teamPage: true, leaguePage: false },
+        pageState: {
+          globalPage: false,
+          teamPage: true,
+          leaguePage: false,
+          liveLeaguePage: false,
+        },
       };
     case 'SET_LEAGUE_PAGE':
       return {
         ...state,
-        pageState: { globalPage: false, teamPage: false, leaguePage: true },
+        pageState: {
+          globalPage: false,
+          teamPage: false,
+          leaguePage: true,
+          liveLeaguePage: false,
+        },
+      };
+    case 'SET_LIVE_LEAGUE_PAGE':
+      return {
+        ...state,
+        pageState: {
+          globalPage: false,
+          teamPage: false,
+          leaguePage: false,
+          liveLeaguePage: true,
+        },
       };
 
     case 'SET_FILTER_MODEL':
@@ -108,7 +141,8 @@ const tableReducer = (state: TableState, action: Action): TableState => {
         ...state,
         loading: action.payload,
       };
-
+    case 'SET_LIVE_LEAGUE_TABLE': // New action for the new league
+      return { ...state, liveLeagueTable: action.payload };
     default:
       return state;
   }

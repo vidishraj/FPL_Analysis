@@ -75,6 +75,14 @@ export const Header = () => {
               Connect FPL league
             </button>
           </div>
+          <div style={{ textWrap: 'nowrap' }}>
+            <button
+              className="custom-button"
+              onClick={() => dispatch({ type: 'SET_LIVE_LEAGUE_PAGE' })}
+            >
+              Live FPL league
+            </button>
+          </div>
         </div>
       </div>
     </>
