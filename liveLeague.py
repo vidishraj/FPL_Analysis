@@ -1,12 +1,17 @@
 import requests
 from bs4 import BeautifulSoup
+from datetime import datetime, timezone
 
 
 def fetchLiveLeague(leagueId):
     """We will only fetch the top 100 players and calculate the metrics for them"""
     page = 1
 
-    firstResponse = requests.get(f"https://www.anewpla.net/fpl/league/json.php?id={leagueId}&page={page}")
+    current_utc_time = datetime.now(timezone.utc)
+    current_timestamp = current_utc_time.timestamp()
+    current_timestamp = int(current_timestamp * 1000)
+    firstResponse = requests.get(f"https://www.anewpla.net/fpl/league/json.php?id={leagueId}&page={page}&_"
+                                 f"={current_timestamp}")
     if firstResponse.status_code == 200:
         responseJson = firstResponse.json()
         responseObject = {
@@ -16,9 +21,8 @@ def fetchLiveLeague(leagueId):
         try:
             while responseJson['pagination']["more"] and len(responseObject['standings']) < 100:
                 page += 1
-                responseJson = requests.get(
-                    f"https://fantasy.premierleague.com/api/leagues-classic/{leagueId}/standings"
-                    f"/page_standings={page}/")
+                responseJson = requests.get(f"https://www.anewpla.net/fpl/league/json.php?id={leagueId}&page={page}"
+                                            f"&_={current_timestamp}")
                 responseJson = responseJson.json()
                 leagueData = extractData(responseJson['data'])
                 for item in leagueData:
