@@ -34,3 +34,10 @@ export function fetchLeague(leagueId: string) {
     },
   });
 }
+export function fetchLiveLeague(leagueId: string) {
+  return axios.get(`${dev ? local : backend_Url}/fetchLiveLeague`, {
+    params: {
+      league_id: leagueId,
+    },
+  });
+}

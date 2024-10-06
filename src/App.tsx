@@ -7,6 +7,7 @@ import TeamsPage from './Pages/TeamsTablePage';
 import LeaguePage from './Pages/LeagueTablePage';
 import { setupAxiosInterceptors } from './Api/Interceptor';
 import Loader from './Loader/Loader';
+import LiveLeaguePage from './Pages/LiveLeagueTablePage';
 
 const App: React.FC = () => {
   const { state, dispatch } = useFplContext();
@@ -32,6 +33,7 @@ const App: React.FC = () => {
           {state.pageState.globalPage && <GlobalPage></GlobalPage>}
           {state.pageState.teamPage && <TeamsPage></TeamsPage>}
           {state.pageState.leaguePage && <LeaguePage></LeaguePage>}
+          {state.pageState.liveLeaguePage && <LiveLeaguePage></LiveLeaguePage>}
         </>
       )}
     </>
