@@ -201,7 +201,7 @@ const TeamFilters: React.FC<FilterProps> = () => {
               textAlign: 'left',
             }}
           >
-            *651161 for VR
+            *6398611 for VR
           </span>
         </div>
         <button
