@@ -1,10 +1,9 @@
 from flask import Flask, jsonify, request
 from flask_cors import CORS
 from datetime import datetime, timedelta
-import requests
-
 import static
 from league import fetchLeague
+from liveLeague import fetchLiveLeague
 
 from utils import getCurrentGW, getTeamIdsForTeam, fetchDataFromJson, calculateMinMax, fetch_external_data
 
@@ -69,6 +68,20 @@ def fetchLeagueDetails():
     except Exception as ex:
         print("Error while fetching league", ex)
         return jsonify({"error": "Failed to team details"}), 500
+
+
+@app.route('/fetchLiveLeague', methods=['GET'])
+def fetchLiveLeagueDetails():
+    try:
+        if static.response_data is None:
+            get_data()
+        leagueId = request.args.get("league_id")
+        leagueDetails = fetchLiveLeague(leagueId)
+        return jsonify(leagueDetails)
+    except Exception as ex:
+        print("Error while fetching live league", ex)
+        return jsonify({"error": "Failed to live league details"}), 500
+
 
 # if __name__ == '__main__':
 #     app.run(debug=False, use_reloader=False)
