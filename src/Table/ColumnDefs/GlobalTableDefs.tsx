@@ -96,7 +96,7 @@ export const globalColumnDefs: ColDef[] = [
             alt="iconLogo"
             width={25}
             height={25}
-            src={iconSrc[params.value]}
+            src={iconSrc[params.value]['logo']}
           ></img>
         </div>
       );

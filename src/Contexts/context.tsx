@@ -8,8 +8,17 @@ interface PageState {
   teamPage: boolean;
   leaguePage: boolean;
   liveLeaguePage: boolean;
+  createTeamPage: boolean;
 }
 
+interface teamCreationState {
+  gk: any;
+  def: any;
+  mid: any;
+  strike: any;
+  teamCost: number;
+  totalCount: number;
+}
 interface FilterModels {
   globalFilterModel: FilterModel;
   teamFilterModel: FilterModel;
@@ -28,6 +37,7 @@ interface TableState {
   team: string | null | undefined;
   league: string | null | undefined;
   loading: boolean;
+  teamCreationState: teamCreationState;
 }
 
 // Define initial state
@@ -41,6 +51,7 @@ const initialState: TableState = {
     teamPage: false,
     leaguePage: false,
     liveLeaguePage: false,
+    createTeamPage: false,
   },
   filterModels: {
     globalFilterModel: {},
@@ -51,6 +62,14 @@ const initialState: TableState = {
   team: null,
   league: null,
   loading: true,
+  teamCreationState: {
+    gk: {},
+    def: {},
+    strike: {},
+    mid: {},
+    teamCost: 0,
+    totalCount: 0,
+  } as teamCreationState,
 };
 
 // Define action types
@@ -63,9 +82,13 @@ export type Action =
   | { type: 'SET_TEAMS_PAGE' }
   | { type: 'SET_LEAGUE_PAGE' }
   | { type: 'SET_LIVE_LEAGUE_PAGE' }
+  | { type: 'SET_CREATE_TEAM_PAGE' }
   | { type: 'SET_LOADING'; payload: boolean }
   | { type: 'SET_FILTER_MODEL'; payload: FilterModel }
   | { type: 'SET_TEAM'; payload: string | null | undefined }
+  | { type: 'SET_TEAM_CREATION'; payload: { pos: string; body: any[] } }
+  | { type: 'SET_TEAM_CREATION_COUNT'; payload: number }
+  | { type: 'SET_TEAM_CREATION_COST'; payload: number }
   | { type: 'SET_LEAGUE'; payload: string | null | undefined };
 
 // Create the reducer function
@@ -85,6 +108,7 @@ const tableReducer = (state: TableState, action: Action): TableState => {
           teamPage: false,
           leaguePage: false,
           liveLeaguePage: false,
+          createTeamPage: false,
         },
       };
     case 'SET_TEAMS_PAGE':
@@ -95,6 +119,7 @@ const tableReducer = (state: TableState, action: Action): TableState => {
           teamPage: true,
           leaguePage: false,
           liveLeaguePage: false,
+          createTeamPage: false,
         },
       };
     case 'SET_LEAGUE_PAGE':
@@ -105,6 +130,7 @@ const tableReducer = (state: TableState, action: Action): TableState => {
           teamPage: false,
           leaguePage: true,
           liveLeaguePage: false,
+          createTeamPage: false,
         },
       };
     case 'SET_LIVE_LEAGUE_PAGE':
@@ -115,6 +141,18 @@ const tableReducer = (state: TableState, action: Action): TableState => {
           teamPage: false,
           leaguePage: false,
           liveLeaguePage: true,
+          createTeamPage: false,
+        },
+      };
+    case 'SET_CREATE_TEAM_PAGE':
+      return {
+        ...state,
+        pageState: {
+          globalPage: false,
+          teamPage: false,
+          leaguePage: false,
+          liveLeaguePage: false,
+          createTeamPage: true,
         },
       };
 
@@ -143,6 +181,30 @@ const tableReducer = (state: TableState, action: Action): TableState => {
       };
     case 'SET_LIVE_LEAGUE_TABLE': // New action for the new league
       return { ...state, liveLeagueTable: action.payload };
+    case 'SET_TEAM_CREATION': // New action for the new league
+      return {
+        ...state,
+        teamCreationState: {
+          ...state.teamCreationState,
+          [action.payload.pos]: action.payload.body,
+        },
+      };
+    case 'SET_TEAM_CREATION_COUNT': // New action for the new league
+      return {
+        ...state,
+        teamCreationState: {
+          ...state.teamCreationState,
+          totalCount: action.payload,
+        },
+      };
+    case 'SET_TEAM_CREATION_COST': // New action for the new league
+      return {
+        ...state,
+        teamCreationState: {
+          ...state.teamCreationState,
+          teamCost: action.payload,
+        },
+      };
     default:
       return state;
   }
