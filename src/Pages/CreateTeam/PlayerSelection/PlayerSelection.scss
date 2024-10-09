@@ -1,0 +1,13 @@
+.innerBox {
+    background-image: linear-gradient(to right, rgb(5, 240, 255), rgb(0, 255, 135));
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-size: 0.9rem;
+}
+.outerBox {
+    align-self: flex-start;
+    display: inline-block;
+    padding: 0.4rem 0.8rem;
+    border-radius: 0px 0px 1rem 1rem;
+    background-color: rgb(55, 0, 60);
+}
