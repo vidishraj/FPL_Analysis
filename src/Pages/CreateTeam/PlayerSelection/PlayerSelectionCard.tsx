@@ -61,7 +61,6 @@ export const PlayerSelectionCard = ({
 
         break;
       case 3:
-        s;
         let mid = fplCtx.state.teamCreationState.mid;
         if (!mid.hasOwnProperty(player.code) && Object.keys(mid).length < 5) {
           itemAdded = true;
