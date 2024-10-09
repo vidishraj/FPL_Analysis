@@ -38,7 +38,7 @@ export const Header = () => {
             <Logo
               style={{
                 height: '35px',
-                maxWidth: 'auto',
+                width: 'auto',
                 borderRadius: '25px',
               }}
             />
@@ -47,7 +47,7 @@ export const Header = () => {
                 height: '30px',
                 padding: 0,
                 marginLeft: '10px',
-                maxWidth: 'auto',
+                width: 'auto',
               }}
             />
           </Box>
