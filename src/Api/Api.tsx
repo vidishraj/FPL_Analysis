@@ -4,7 +4,7 @@ import axios from 'axios';
 // const instance = Axios.create();
 // export const axios = setupCache(instance, { debug: console.log });
 
-const backend_Url = 'https://ministerial-wilie-akkountant-9398452e.koyeb.app/';
+const backend_Url = 'api/';
 const dev = false;
 const local = 'http://127.0.0.1:5000';
 
