@@ -35,7 +35,7 @@ const App: React.FC = () => {
       ) : (
         <>
           <Header />
-          <div style={{ marginTop: '50px' }}>
+          <div>
             {state.pageState.globalPage && <GlobalPage></GlobalPage>}
             {state.pageState.teamPage && <TeamsPage></TeamsPage>}
             {state.pageState.leaguePage && <LeaguePage></LeaguePage>}
