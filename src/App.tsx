@@ -35,11 +35,15 @@ const App: React.FC = () => {
       ) : (
         <>
           <Header />
-          {state.pageState.globalPage && <GlobalPage></GlobalPage>}
-          {state.pageState.teamPage && <TeamsPage></TeamsPage>}
-          {state.pageState.leaguePage && <LeaguePage></LeaguePage>}
-          {state.pageState.liveLeaguePage && <LiveLeaguePage></LiveLeaguePage>}
-          {state.pageState.createTeamPage && <FplLineup></FplLineup>}
+          <div style={{ marginTop: '50px' }}>
+            {state.pageState.globalPage && <GlobalPage></GlobalPage>}
+            {state.pageState.teamPage && <TeamsPage></TeamsPage>}
+            {state.pageState.leaguePage && <LeaguePage></LeaguePage>}
+            {state.pageState.liveLeaguePage && (
+              <LiveLeaguePage></LiveLeaguePage>
+            )}
+            {state.pageState.createTeamPage && <FplLineup></FplLineup>}
+          </div>
         </>
       )}
     </>

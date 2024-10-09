@@ -25,7 +25,7 @@ export const Header = () => {
   return (
     <>
       <AppBar
-        position="fixed"
+        position="static"
         sx={{ backgroundColor: '#37003c', height: '50px' }}
       >
         <Toolbar
@@ -34,11 +34,11 @@ export const Header = () => {
             justifyContent: 'space-between',
           }}
         >
-          <Box sx={{ display: 'flex' }}>
+          <Box>
             <Logo
               style={{
                 height: '35px',
-                maxWidth: 'fit-content',
+                maxWidth: 'auto',
                 borderRadius: '25px',
               }}
             />
@@ -47,7 +47,7 @@ export const Header = () => {
                 height: '30px',
                 padding: 0,
                 marginLeft: '10px',
-                maxWidth: 'fit-content',
+                maxWidth: 'auto',
               }}
             />
           </Box>
@@ -171,7 +171,10 @@ export const Header = () => {
           <Button
             color="inherit"
             className="custom-button"
-            onClick={() => dispatch({ type: 'SET_CREATE_TEAM_PAGE' })}
+            onClick={() => {
+              dispatch({ type: 'SET_CREATE_TEAM_PAGE' });
+              toggleDrawer(false);
+            }}
           >
             Create Team
           </Button>
