@@ -25,18 +25,16 @@ export const Header = () => {
   return (
     <>
       <AppBar
-        position="static"
+        position="fixed"
         sx={{ backgroundColor: '#37003c', height: '50px' }}
       >
         <Toolbar
           sx={{
             display: 'flex',
             justifyContent: 'space-between',
-            alignItems: 'center',
           }}
         >
-          {/* Left Side: Logo */}
-          <Box sx={{ display: 'flex', alignItems: 'center' }}>
+          <Box sx={{ display: 'flex' }}>
             <Logo
               style={{
                 height: '35px',
@@ -54,7 +52,6 @@ export const Header = () => {
             />
           </Box>
 
-          {/* Right Side: Menu Buttons (hidden on small screens) */}
           <Box
             sx={{
               display: { xs: 'none', md: 'flex' },
@@ -97,8 +94,6 @@ export const Header = () => {
               Create Team
             </Button>
           </Box>
-
-          {/* Hamburger Menu for Small Screens */}
           <IconButton
             edge="end"
             color="inherit"
@@ -111,7 +106,6 @@ export const Header = () => {
         </Toolbar>
       </AppBar>
 
-      {/* Drawer for Small Screens */}
       <Drawer
         anchor="right"
         open={drawerOpen}
@@ -134,7 +128,6 @@ export const Header = () => {
           >
             <CloseIcon />
           </IconButton>
-
           <Button
             color="inherit"
             className="custom-button"
@@ -174,6 +167,13 @@ export const Header = () => {
             }}
           >
             Live FPL league
+          </Button>{' '}
+          <Button
+            color="inherit"
+            className="custom-button"
+            onClick={() => dispatch({ type: 'SET_CREATE_TEAM_PAGE' })}
+          >
+            Create Team
           </Button>
         </Box>
       </Drawer>
