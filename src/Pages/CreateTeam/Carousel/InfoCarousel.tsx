@@ -6,6 +6,7 @@ import {
   ToggleButton,
   ToggleButtonGroup,
   Typography,
+  IconButton,
 } from '@mui/material';
 import Slider, { Settings } from 'react-slick';
 import { Player } from '../../../Types/DataType';
@@ -13,7 +14,9 @@ import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import { round } from '../CreateTeam';
 import { useFplContext } from '../../../Contexts/context';
-
+import RestartAltIcon from '@mui/icons-material/RestartAlt';
+import GroupAddIcon from '@mui/icons-material/GroupAdd';
+import TeamIDDialog from './TeamIdDialog';
 interface TeamSummaryCarouselProps {
   players: Player[];
 }
@@ -129,7 +132,8 @@ const TeamSummaryCarousel: React.FC<TeamSummaryCarouselProps> = ({
   const [view, setView] = useState<'attackers' | 'defenders' | 'overall'>(
     'overall'
   );
-  const { state } = useFplContext();
+  const [dialogState, setDialogState] = useState<boolean>(false);
+  const { state, dispatch } = useFplContext();
   const attackers = players.filter(
     (player) => player.data.positionId === 4 || player.data.positionId === 3
   ); // Forward
@@ -157,13 +161,14 @@ const TeamSummaryCarousel: React.FC<TeamSummaryCarouselProps> = ({
 
   const settings: Settings = {
     dots: false,
+    arrows: true,
     infinite: true,
-    speed: 500,
+    speed: 2000,
     pauseOnHover: true,
     swipeToSlide: true,
     pauseOnFocus: true,
     autoplay: true,
-    autoplaySpeed: 2000,
+    autoplaySpeed: 3000,
     slidesToShow: 2, // Display 2 cards
     slidesToScroll: 1,
     responsive: [
@@ -217,19 +222,62 @@ const TeamSummaryCarousel: React.FC<TeamSummaryCarouselProps> = ({
     );
   };
 
+  function resetTeam() {
+    console.log('RESEYT');
+    dispatch({
+      type: 'RESET_TEAM_CREATION',
+    });
+  }
+
   return (
     <Box>
-      <ToggleButtonGroup
-        value={view}
-        style={{ maxHeight: '5vh' }}
-        exclusive
-        onChange={handleViewChange}
-        aria-label="view switch"
+      <Box
+        display="flex"
+        justifyContent="space-between"
+        alignItems="center"
+        flexWrap="nowrap"
       >
-        <ToggleButton value="attackers">Attackers</ToggleButton>
-        <ToggleButton value="defenders">Defenders</ToggleButton>
-        <ToggleButton value="overall">Overall</ToggleButton>
-      </ToggleButtonGroup>
+        <IconButton
+          onClick={resetTeam}
+          sx={{
+            padding: '0.5%',
+          }}
+          color="inherit"
+        >
+          <RestartAltIcon />
+        </IconButton>
+
+        <ToggleButtonGroup
+          value={view}
+          exclusive
+          onChange={handleViewChange}
+          aria-label="view switch"
+          sx={{
+            minWidth: '180px',
+            display: 'flex',
+          }}
+        >
+          <ToggleButton size="small" value="attackers">
+            Attackers
+          </ToggleButton>
+          <ToggleButton size="small" value="defenders">
+            Defenders
+          </ToggleButton>
+          <ToggleButton size="small" value="overall">
+            Overall
+          </ToggleButton>
+        </ToggleButtonGroup>
+
+        <IconButton
+          sx={{
+            padding: '0.5%',
+          }}
+          color="inherit"
+          onClick={() => setDialogState(true)}
+        >
+          <GroupAddIcon />
+        </IconButton>
+      </Box>
 
       <Slider {...settings}>
         <Card>
@@ -398,9 +446,13 @@ const TeamSummaryCarousel: React.FC<TeamSummaryCarouselProps> = ({
             borderBottomRightRadius: '25px',
           }}
         >
-          {statItem(state.teamCreationState.teamCost, 'Budget')}
+          {statItem(100 - state.teamCreationState.teamCost, 'Budget')}
         </Typography>
       </Box>
+      <TeamIDDialog
+        open={dialogState}
+        handleClose={() => setDialogState(false)}
+      />
     </Box>
   );
 };
