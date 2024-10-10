@@ -15,7 +15,6 @@ export const LiveLeagueColumnDefs: ColDef[] = [
     headerName: 'Player Name',
     field: 'Name', //  'Name'
     sortable: true,
-    pinned: 'left',
     filter: 'agTextColumnFilter',
     width: 180,
   },
