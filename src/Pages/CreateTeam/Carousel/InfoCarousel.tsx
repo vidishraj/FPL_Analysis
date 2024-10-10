@@ -223,7 +223,6 @@ const TeamSummaryCarousel: React.FC<TeamSummaryCarouselProps> = ({
   };
 
   function resetTeam() {
-    console.log('RESEYT');
     dispatch({
       type: 'RESET_TEAM_CREATION',
     });
