@@ -44,7 +44,7 @@ const FplLineup = () => {
         type: 'SET_TEAM_CREATION_COMPLETE',
         payload: teamData,
       });
-    }
+    } // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [teamTable]);
   const handleOpenDialog = (position: string) => {
     if (window.outerWidth < 770) {
