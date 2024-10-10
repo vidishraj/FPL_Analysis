@@ -5,12 +5,14 @@ import {
   Box,
   ToggleButton,
   ToggleButtonGroup,
+  Typography,
 } from '@mui/material';
 import Slider, { Settings } from 'react-slick';
 import { Player } from '../../../Types/DataType';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import { round } from '../CreateTeam';
+import { useFplContext } from '../../../Contexts/context';
 
 interface TeamSummaryCarouselProps {
   players: Player[];
@@ -127,7 +129,7 @@ const TeamSummaryCarousel: React.FC<TeamSummaryCarouselProps> = ({
   const [view, setView] = useState<'attackers' | 'defenders' | 'overall'>(
     'overall'
   );
-
+  const { state } = useFplContext();
   const attackers = players.filter(
     (player) => player.data.positionId === 4 || player.data.positionId === 3
   ); // Forward
@@ -154,7 +156,7 @@ const TeamSummaryCarousel: React.FC<TeamSummaryCarouselProps> = ({
       : defenderStats;
 
   const settings: Settings = {
-    dots: true,
+    dots: false,
     infinite: true,
     speed: 500,
     pauseOnHover: true,
@@ -193,6 +195,8 @@ const TeamSummaryCarousel: React.FC<TeamSummaryCarouselProps> = ({
             ? '-'
             : percentageVal
             ? round(value, 1) + '%'
+            : label === 'Budget'
+            ? '£' + round(value, 1)
             : round(value, 1)}
         </span>
         <span
@@ -363,6 +367,40 @@ const TeamSummaryCarousel: React.FC<TeamSummaryCarouselProps> = ({
           </CardContent>
         </Card>
       </Slider>
+      <Box
+        position={'absolute'}
+        zIndex={2}
+        display={'flex'}
+        bgcolor={'transparent'}
+        gap={'5%'}
+        width={{
+          xs: '100%',
+          sm: 'max-content',
+          md: 'max-content',
+          lg: 'max-content',
+        }}
+        sx={{ pointerEvents: 'none' }}
+        justifyContent={'space-between'}
+      >
+        <Typography
+          bgcolor={'whitesmoke'}
+          style={{
+            borderBottomLeftRadius: '25px',
+            borderBottomRightRadius: '25px',
+          }}
+        >
+          {statItem(state.teamCreationState.totalCount, 'Players')}
+        </Typography>
+        <Typography
+          bgcolor={'whitesmoke'}
+          style={{
+            borderBottomLeftRadius: '25px',
+            borderBottomRightRadius: '25px',
+          }}
+        >
+          {statItem(state.teamCreationState.teamCost, 'Budget')}
+        </Typography>
+      </Box>
     </Box>
   );
 };
