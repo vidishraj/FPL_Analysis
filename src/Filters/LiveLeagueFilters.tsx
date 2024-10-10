@@ -141,7 +141,7 @@ const LiveLeagueFilters: React.FC<FilterProps> = () => {
           className="custom-button"
           onClick={() => {
             if (leagueId) {
-              addParamToUrl('live_league_id', leagueId);
+              addParamToUrl('league_Id', leagueId);
               dispatch({ type: 'SET_LEAGUE', payload: leagueId });
             }
           }}

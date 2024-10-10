@@ -13,19 +13,19 @@ const LiveLeaguePage = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
-  const paramLeague = queryParams.get('live_league_id');
+  const paramLeague = queryParams.get('league_Id');
   const [teamShown, setTeamShown] = useState<Player[] | undefined>(undefined);
   const { state, dispatch } = useFplContext();
 
   useEffect(() => {
-    const lcLeague = localStorage.getItem('live_league_id');
+    const lcLeague = localStorage.getItem('league_Id');
     if (paramLeague) {
       if (state.liveLeagueTable === undefined || paramLeague !== lcLeague) {
-        localStorage.setItem('live_league_id', paramLeague);
+        localStorage.setItem('league_Id', paramLeague);
         fetchLeagueDetails(paramLeague);
       }
     } else if (lcLeague !== null) {
-      addParamToUrl('live_league_id', lcLeague);
+      addParamToUrl('league_Id', lcLeague);
       fetchLeagueDetails(lcLeague);
     } // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [paramLeague]);
@@ -44,7 +44,7 @@ const LiveLeaguePage = () => {
 
   function fetchLeagueDetails(leagueId: string | undefined) {
     if (leagueId) {
-      addParamToUrl('live_league_id', leagueId.toString());
+      addParamToUrl('league_Id', leagueId.toString());
       fetchLiveLeague(leagueId) // Use your new API call here
         .then((response) => {
           dispatch({
@@ -57,8 +57,8 @@ const LiveLeaguePage = () => {
             type: 'SET_LIVE_LEAGUE_TABLE',
             payload: { leagueId: '', standings: [], name: '' },
           });
-          const path = removeParamFromUrl('live_league_id');
-          localStorage.removeItem('live_league_id');
+          const path = removeParamFromUrl('league_Id');
+          localStorage.removeItem('league_Id');
           navigate(path);
           console.log('error fetching new league', err);
         });
