@@ -40,8 +40,6 @@ const FplLineup = () => {
         }
       });
 
-      console.log(teamData);
-
       fplCtx.dispatch({
         type: 'SET_TEAM_CREATION_COMPLETE',
         payload: teamData,
