@@ -1,16 +1,53 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Box, Dialog, DialogContent, IconButton } from '@mui/material';
 import PlayerList from './PlayerSelection/PlayerSelection';
 import { useFplContext } from '../../Contexts/context';
 import CloseIcon from '@mui/icons-material/Close';
 import { Pitch } from './Pitch/Pitch';
+import { Player } from '../../Types/DataType';
 
 const FplLineup = () => {
   const fplCtx = useFplContext();
   const { gk, mid, strike, def } = fplCtx.state.teamCreationState;
   const [position, setPosition] = useState('All');
   const [openDialog, setOpenDialog] = useState(false);
+  const teamTable = fplCtx.state.teamTable;
+  useEffect(() => {
+    if (teamTable && Array.isArray(teamTable)) {
+      const positionsMap: any = {
+        1: 'gk',
+        2: 'def',
+        3: 'mid',
+        4: 'strike',
+      };
 
+      const teamData: any = {
+        gk: {},
+        def: {},
+        mid: {},
+        strike: {},
+        totalCount: 0,
+        teamCost: 0,
+      };
+
+      teamTable.forEach((player: Player) => {
+        const positionKey = positionsMap[player.data.positionId];
+
+        if (positionKey) {
+          teamData[positionKey][player.code] = player;
+          teamData.totalCount += 1;
+          teamData.teamCost += player.data.nowCost / 10;
+        }
+      });
+
+      console.log(teamData);
+
+      fplCtx.dispatch({
+        type: 'SET_TEAM_CREATION_COMPLETE',
+        payload: teamData,
+      });
+    }
+  }, [teamTable]);
   const handleOpenDialog = (position: string) => {
     if (window.outerWidth < 770) {
       setOpenDialog(true);

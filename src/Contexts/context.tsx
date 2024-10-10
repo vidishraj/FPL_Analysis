@@ -83,6 +83,8 @@ export type Action =
   | { type: 'SET_LEAGUE_PAGE' }
   | { type: 'SET_LIVE_LEAGUE_PAGE' }
   | { type: 'SET_CREATE_TEAM_PAGE' }
+  | { type: 'RESET_TEAM_CREATION' }
+  | { type: 'SET_TEAM_CREATION_COMPLETE'; payload: teamCreationState }
   | { type: 'SET_LOADING'; payload: boolean }
   | { type: 'SET_FILTER_MODEL'; payload: FilterModel }
   | { type: 'SET_TEAM'; payload: string | null | undefined }
@@ -179,9 +181,9 @@ const tableReducer = (state: TableState, action: Action): TableState => {
         ...state,
         loading: action.payload,
       };
-    case 'SET_LIVE_LEAGUE_TABLE': // New action for the new league
+    case 'SET_LIVE_LEAGUE_TABLE':
       return { ...state, liveLeagueTable: action.payload };
-    case 'SET_TEAM_CREATION': // New action for the new league
+    case 'SET_TEAM_CREATION':
       return {
         ...state,
         teamCreationState: {
@@ -189,7 +191,7 @@ const tableReducer = (state: TableState, action: Action): TableState => {
           [action.payload.pos]: action.payload.body,
         },
       };
-    case 'SET_TEAM_CREATION_COUNT': // New action for the new league
+    case 'SET_TEAM_CREATION_COUNT':
       return {
         ...state,
         teamCreationState: {
@@ -197,13 +199,30 @@ const tableReducer = (state: TableState, action: Action): TableState => {
           totalCount: action.payload,
         },
       };
-    case 'SET_TEAM_CREATION_COST': // New action for the new league
+    case 'SET_TEAM_CREATION_COST':
       return {
         ...state,
         teamCreationState: {
           ...state.teamCreationState,
           teamCost: action.payload,
         },
+      };
+    case 'RESET_TEAM_CREATION':
+      return {
+        ...state,
+        teamCreationState: {
+          gk: {},
+          def: {},
+          strike: {},
+          mid: {},
+          teamCost: 0,
+          totalCount: 0,
+        },
+      };
+    case 'SET_TEAM_CREATION_COMPLETE':
+      return {
+        ...state,
+        teamCreationState: action.payload,
       };
     default:
       return state;
